@@ -19,9 +19,9 @@ public class Render {
      * This should draw to a buffer, which should be
      * rendered with render()
      *
-     * @arg x The x coordinate
-     * @arg y The y coordinate
-     * @arg c The color to draw
+     * @param x The x coordinate
+     * @param y The y coordinate
+     * @param c The color to draw
      */
     public void draw (int x, int y, Color c) {
 
