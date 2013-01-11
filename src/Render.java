@@ -1,3 +1,5 @@
+package edu.stuy.goldfish;
+
 
 import java.awt.Color;
 

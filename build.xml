@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="Goldfish">
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="Goldfish.classpath">
+        <pathelement location="bin"/>
+    </path>
+
+    <manifestclasspath property="manifest_cp" jarfile="bin/Goldfish.jar">
+        <classpath refid="Goldfish.classpath" />
+    </manifestclasspath>
+
+    <manifest file="bin/MANIFEST.MF">
+        <attribute name="Main-Class"
+            value="edu.stuy.goldfish.Goldfish" />
+        <attribute name="Created-By"
+            value="Ben Kurtovic, Josh Hofing, and Kevin Li" />
+        <attribute name="Class-Path"
+            value="${manifest_cp}" />
+    </manifest>
+
+
+    <target name="init">
+        <mkdir dir="bin"/>
+        <mkdir dir="src"/>
+        <mkdir dir="src/rules" />
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+
+    <target depends="clean" name="cleanall"/>
+    
+    <target depends="build-project" name="build"/>
+    
+
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="false" >
+            <src path="src"/>
+            <classpath refid="Goldfish.classpath"/>
+        </javac>
+        <jar file="bin/Goldfish.jar"
+            manifest="bin/MANIFEST.MF" >
+            <fileset dir="bin">
+                <include name="**/*.class"/>
+            </fileset>
+        </jar>
+    </target>
+
+    <target depends="build-project" name="run">
+        <java jar="bin/${ant.project.name}.jar" fork="true" />
+    </target>
+
+</project>

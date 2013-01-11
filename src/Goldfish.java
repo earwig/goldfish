@@ -1,3 +1,8 @@
+package edu.stuy.goldfish;
+
+
+import edu.stuy.goldfish.rules.*;
+
 public class Goldfish {
 
     private Grid _grid;
@@ -10,5 +15,6 @@ public class Goldfish {
 
     public static void main (String[] args) {
         Goldfish g = new Goldfish();
+        Conway c = new Conway();
     }
 }

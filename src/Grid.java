@@ -1,3 +1,5 @@
+package edu.stuy.goldfish;
+
 public class Grid {
 
     private Patch[][] _grid;

@@ -1,3 +1,5 @@
+package edu.stuy.goldfish;
+
 public class Patch {
     private int _pxcor, _pycor;
     private String _plabel;
@@ -7,6 +9,10 @@ public class Patch {
         _myGrid = grid;
         _pxcor = xcor;
         _pycor = ycor;
+    }
+
+    public Patch () {
+        this(new Grid(), 0, 0);
     }
 
     public String toString() {
