@@ -16,7 +16,7 @@ public class Grid {
         }
     }
 
-    public String toString() }
+    public String toString() {
         String ans = "";
         for(int i = 0; i < _grid.length; i++) {
             for(int j = 0; j < _grid[i].length; j++) {
