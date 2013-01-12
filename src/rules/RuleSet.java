@@ -1,5 +1,7 @@
 package edu.stuy.goldfish.rules;
 
+import edu.stuy.goldfish.Grid;
+
 public class RuleSet {
 
     /**
