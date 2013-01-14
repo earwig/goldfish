@@ -6,14 +6,14 @@ public class Grid {
 
     public Grid() {
         _grid = new Patch[1][1];
-        _grid[0][0] = new Patch(this, 0, 0);
+        _grid[0][0] = new Patch(this, 0, 0, 0, "");
     }
 
     public Grid(int x, int y) {
         _grid = new Patch[x][y];
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                _grid[i][j] = new Patch(this, i, j);
+                _grid[i][j] = new Patch(this, i, j, 0, "");
             }
         }
     }

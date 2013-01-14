@@ -46,7 +46,7 @@ public class Patch {
     }
 
     public String toString() {
-        return _plabel;
+        return _label;
     }
 
     public Patch[] get4Neighbors() {
@@ -55,6 +55,7 @@ public class Patch {
         neighbors[1] = _grid.getPatch(_xcor - 1, _ycor);
         neighbors[2] = _grid.getPatch(_xcor, _ycor + 1);
         neighbors[3] = _grid.getPatch(_xcor, _ycor - 1);
+        return neighbors;
     }
 
     public Patch[] get8Neighbors() {
@@ -67,6 +68,7 @@ public class Patch {
         neighbors[5] = _grid.getPatch(_xcor + 1, _ycor - 1);
         neighbors[6] = _grid.getPatch(_xcor - 1, _ycor + 1);
         neighbors[7] = _grid.getPatch(_xcor - 1, _ycor - 1);
+        return neighbors;
     }
 
     public Patch clone() {

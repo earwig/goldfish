@@ -3,14 +3,13 @@ package edu.stuy.goldfish.rules;
 import edu.stuy.goldfish.Grid;
 import edu.stuy.goldfish.Patch;
 
-public class Conway implements RuleSet {
-    states = 2;
+public class Conway extends RuleSet {
+    public static int states = 2;
 
-    @Override
     public static Grid run (Grid g) {
         Grid newGrid = new Grid(g.getWidth(), g.getHeight());
         for (int i = 0; i < g.getWidth(); i++) {
-            for (int j = 0; j < j.getHeight(); j++) {
+            for (int j = 0; j < g.getHeight(); j++) {
                 Patch[] neighbors = g.getPatch(i, j).get8Neighbors();
                 int numAlive = 0;
                 for (Patch p : neighbors)

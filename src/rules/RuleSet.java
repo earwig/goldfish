@@ -2,8 +2,8 @@ package edu.stuy.goldfish.rules;
 
 import edu.stuy.goldfish.Grid;
 
-public interface RuleSet {
-    public static int states;
+public class RuleSet {
+    public static int states = 0;
 
     /**
      * Run this ruleset on a grid, returning the result.
@@ -12,6 +12,8 @@ public interface RuleSet {
      *
      * @return The new grid
      */
-    public static Grid run (Grid g);
+    public static Grid run (Grid g) {
+        return g;
+    }
 
 }
