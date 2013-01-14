@@ -18,7 +18,7 @@ public class Grid {
         }
     }
 
-    private static int normalizeX(int x) {
+    private int normalizeX(int x) {
         while (x >= getWidth())
             x -= getWidth();
         while (x < 0)
@@ -26,7 +26,7 @@ public class Grid {
         return x;
     }
 
-    private static int normalizeY(int y) {
+    private int normalizeY(int y) {
         while (y >= getHeight())
             y -= getHeight();
         while (y < 0)
