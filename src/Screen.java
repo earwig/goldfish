@@ -1,9 +1,12 @@
+import java.util.Random;
 
 public class Screen {
 
 	private int width, height;
 	public int[] pixels;
 	private int[] _grid;
+
+	Random random = new Random();
 
 	public Screen(int width, int height) {
 		this.width = width;
@@ -22,7 +25,8 @@ public class Screen {
 	public void render() {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				pixels[x + y * width] = _grid[x + y * width];
+				pixels[x+y*width] = random.nextInt();
+				//pixels[x + y * width] = _grid[x + y * width];
 			}
 		}
 	}
