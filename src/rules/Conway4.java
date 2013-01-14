@@ -3,7 +3,7 @@ package edu.stuy.goldfish.rules;
 import edu.stuy.goldfish.Grid;
 import edu.stuy.goldfish.Patch;
 
-// An implementation of conway using Moore Neighborhoods.
+// An implementation of conway using von Neumann Neighborhoods.
 public class Conway4 extends RuleSet {
     public static int states = 2;
 
