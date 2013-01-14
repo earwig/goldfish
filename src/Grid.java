@@ -18,6 +18,22 @@ public class Grid {
         }
     }
 
+    private static int normalizeX(int x) {
+        while (x >= getWidth())
+            x -= getWidth();
+        while (x < 0)
+            x += getWidth();
+        return x;
+    }
+
+    private static int normalizeY(int y) {
+        while (y >= getHeight())
+            y -= getHeight();
+        while (y < 0)
+            y += getHeight();
+        return y;
+    }
+
     public int getWidth() {
         return _grid.length;
     }
@@ -27,10 +43,14 @@ public class Grid {
     }
 
     public Patch getPatch(int x, int y) {
+        x = normalizeX(x);
+        y = normalizeY(y);
         return _grid[x][y];
     }
 
     public void setPatch(int x, int y, Patch p) {
+        x = normalizeX(x);
+        y = normalizeY(y);
         _grid[x][y] = p;
     }
 
