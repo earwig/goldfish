@@ -1,7 +1,6 @@
 *.class
-
+*.java~
 bin/*
-
 .ant_targets
 
 # Package Files #
