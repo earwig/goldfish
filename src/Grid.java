@@ -11,11 +11,27 @@ public class Grid {
 
     public Grid(int x, int y) {
         _grid = new Patch[x][y];
-        for(int i = 0; i < x; i++) {
-            for(int j = 0; j < y; j++) {
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
                 _grid[i][j] = new Patch(this, i, j);
             }
         }
+    }
+
+    private static int normalizeX(int x) {
+        while (x >= getWidth())
+            x -= getWidth();
+        while (x < 0)
+            x += getWidth();
+        return x;
+    }
+
+    private static int normalizeY(int y) {
+        while (y >= getHeight())
+            y -= getHeight();
+        while (y < 0)
+            y += getHeight();
+        return y;
     }
 
     public int getWidth() {
@@ -27,17 +43,21 @@ public class Grid {
     }
 
     public Patch getPatch(int x, int y) {
+        x = normalizeX(x);
+        y = normalizeY(y);
         return _grid[x][y];
     }
 
     public void setPatch(int x, int y, Patch p) {
+        x = normalizeX(x);
+        y = normalizeY(y);
         _grid[x][y] = p;
     }
 
     public String toString() {
         String ans = "";
-        for(int i = 0; i < _grid.length; i++) {
-            for(int j = 0; j < _grid[i].length; j++) {
+        for (int i = 0; i < _grid.length; i++) {
+            for (int j = 0; j < _grid[i].length; j++) {
                 ans += _grid[i][j];
             }
             ans += "\n";
