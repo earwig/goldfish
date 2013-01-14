@@ -8,11 +8,11 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
-public class Renderer extends Canvas implements Runnable {
+public class Render extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
-	public static int width = 320;
-	public static int height = 240;
+	public static int width;
+	public static int height;
 	public static int scale = 2;
 	
 	public String title = "Title";
@@ -23,14 +23,25 @@ public class Renderer extends Canvas implements Runnable {
 
 	private Screen screen;
 
-	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+	private BufferedImage image;
+	private int[] pixels;
 
-	public Renderer(int width, int height) {
-		System.out.println(width);
+	public Render(int width, int height) {
+		this.width = width;
+		this.height = height;
+		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+		Dimension size = new Dimension(width*scale, height*scale);
+		setPreferredSize(size);
+		screen = new Screen(width, height);
+		frame = new JFrame();
 	}
 	
-	public Renderer() {
+	public Render() {
+		width = 320;
+		height = 240;
+		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 		Dimension size = new Dimension(width*scale, height*scale);
 		setPreferredSize(size);
 		screen = new Screen(width, height);
@@ -105,7 +116,7 @@ public class Renderer extends Canvas implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		Renderer render = new Renderer();
+		Render render = new Render(160,120);
 		render.frame.setResizable(false);
 		render.frame.setTitle(render.title);
 		render.frame.add(render);
