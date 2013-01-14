@@ -18,11 +18,19 @@ public class Grid {
         }
     }
 
-    public Patch getPatch (int x, int y) {
+    public int getWidth() {
+        return _grid.length;
+    }
+
+    public int getHeight() {
+        return _grid[0].length;
+    }
+
+    public Patch getPatch(int x, int y) {
         return _grid[x][y];
     }
 
-    public void setPatch (int x, int y, Patch p) {
+    public void setPatch(int x, int y, Patch p) {
         _grid[x][y] = p;
     }
 
