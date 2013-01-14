@@ -11,8 +11,8 @@ public class Grid {
 
     public Grid(int x, int y) {
         _grid = new Patch[x][y];
-        for(int i = 0; i < x; i++) {
-            for(int j = 0; j < y; j++) {
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
                 _grid[i][j] = new Patch(this, i, j);
             }
         }
@@ -36,8 +36,8 @@ public class Grid {
 
     public String toString() {
         String ans = "";
-        for(int i = 0; i < _grid.length; i++) {
-            for(int j = 0; j < _grid[i].length; j++) {
+        for (int i = 0; i < _grid.length; i++) {
+            for (int j = 0; j < _grid[i].length; j++) {
                 ans += _grid[i][j];
             }
             ans += "\n";

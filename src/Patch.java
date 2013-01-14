@@ -1,19 +1,20 @@
 package edu.stuy.goldfish;
 
 public class Patch {
-    private int _pxcor, _pycor, _state;
-    private String _plabel;
+    private int _xcor, _ycor, _state;
+    private String _label;
     private Grid _myGrid;
 
-    public Patch(Grid grid, int xcor, int ycor, int state) {
+    public Patch(Grid grid, int xcor, int ycor, int state, String label) {
         _myGrid = grid;
-        _pxcor = xcor;
-        _pycor = ycor;
+        _xcor = xcor;
+        _ycor = ycor;
         _state = state;
+        _label = label;
     }
 
     public Patch() {
-        this(new Grid(), 0, 0, 0);
+        this(new Grid(), 0, 0, 0, "");
     }
 
     public Grid getGrid() {
@@ -21,11 +22,27 @@ public class Patch {
     }
 
     public int getX() {
-        return _pxcor;
+        return _xcor;
     }
 
     public int getY() {
-        return _pycor;
+        return _ycor;
+    }
+
+    public int getState() {
+        return _state;
+    }
+
+    public void setState(int state) {
+        _state = state;
+    }
+
+    public String getLabel() {
+        return _label;
+    }
+
+    public void setLabel(String label) {
+        _label = label;
     }
 
     public String toString() {
