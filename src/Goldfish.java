@@ -13,8 +13,12 @@ public class Goldfish {
         _grid = new Grid(640, 480);
     }
 
+    public void run () {
+        //TODO: make it run.
+    }
+
     public static void main (String[] args) {
         Goldfish g = new Goldfish();
-        Conway c = new Conway();
+        g.run();
     }
 }
