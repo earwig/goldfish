@@ -18,6 +18,14 @@ public class Grid {
         }
     }
 
+    public Patch getPatch (int x, int y) {
+        return _grid[x][y];
+    }
+
+    public void setPatch (int x, int y, Patch p) {
+        _grid[x][y] = p;
+    }
+
     public String toString() {
         String ans = "";
         for(int i = 0; i < _grid.length; i++) {
