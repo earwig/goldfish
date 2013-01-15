@@ -62,15 +62,9 @@ public class Conway extends RuleSet {
             //for (int j = 0; j < _original.getHeight(); j++) {
                 //Patch[] neighbors = _original.getPatch(_rowNum, j).get8Neighbors();
                 //int numAlive = 0;
-                //System.out.println(_original.getPatch(_rowNum, j).getX() + "," + _original.getPatch(_rowNum, j).getY());
-                //for (Patch p : neighbors) {
-                    //System.out.print(p.getState());
-                    //if (p.getState() == 1) {
-                        //numAlive++;
-                    //}
-                //}
-                //System.out.println();
-                //Patch p = _original.getPatch(_rowNum,j).clone();
+                //for (Patch p : neighbors)
+                    //if (p.getState() == 1) numAlive++;
+                //Patch p = _original.getPatch(_rowNum,j).clone(_newGrid);
                 //if (numAlive < 2) {
                     //p.setState(0); //Dies by underpopulation
                 //}
