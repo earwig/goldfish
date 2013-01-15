@@ -15,15 +15,20 @@ public class Goldfish {
 
     public void run () {
         //TODO: make it run.
-        for (int i = 0; i < 1; i++) {
-            for (int j = 0; j < 3; j++) { 
-                _grid.getPatch(i,j).setState(1);
-            }
-        }
+        _grid.getPatch(0,1).setState(1);
+        _grid.getPatch(1,2).setState(1);
+        _grid.getPatch(2,2).setState(1);
+        _grid.getPatch(2,1).setState(1);
+        _grid.getPatch(2,0).setState(1);
         System.out.println(_grid);
+
         _grid = Conway.run(_grid);
-        System.out.println("------------");
-        System.out.println(_grid);
+
+        _grid = Conway.run(_grid);
+        
+        _grid = Conway.run(_grid);
+
+        _grid = Conway.run(_grid);
     }
 
     public static void main (String[] args) {
