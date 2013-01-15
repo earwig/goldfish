@@ -9,8 +9,8 @@ public class Goldfish {
     private Render _render;
 
     public Goldfish () {
-        _render = new Render(640, 480);
-        _grid = new Grid(10, 10);
+        _render = new Render(96, 96);
+        _grid = new Grid(96, 96);
     }
 
     public void run () {
@@ -22,15 +22,18 @@ public class Goldfish {
         _grid.getPatch(0,2).setState(1);
         System.out.println(_grid);
 
-        for (int i = 0; i < 10; i++) {
-            _grid = LifeWithoutDeath.run(_grid);
-            System.out.println("------------");
-            System.out.println(_grid);
-        }
+        _grid = LifeWithoutDeath.run(_grid);
+        System.out.println("------------");
+        System.out.println(_grid);
+        _render.setGrid(_grid);
+        _render.run();
+
    }
 
     public static void main (String[] args) {
         Goldfish g = new Goldfish();
-        g.run();
+        while(true) {
+        	g.run();
+        }
     }
 }
