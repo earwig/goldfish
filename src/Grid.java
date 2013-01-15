@@ -45,13 +45,13 @@ public class Grid {
     public Patch getPatch(int x, int y) {
         x = normalizeX(x);
         y = normalizeY(y);
-        return _grid[x][y];
+        return _grid[y][x];
     }
 
     public void setPatch(int x, int y, Patch p) {
         x = normalizeX(x);
         y = normalizeY(y);
-        _grid[x][y] = p;
+        _grid[y][x] = p;
     }
 
     public String toString() {
