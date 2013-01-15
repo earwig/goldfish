@@ -10,10 +10,10 @@ public class Grid {
     }
 
     public Grid(int x, int y) {
-        _grid = new Patch[x][y];
+        _grid = new Patch[y][x];
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                _grid[i][j] = new Patch(this, i, j, 0, "");
+                _grid[j][i] = new Patch(this, i, j, 0, "");
             }
         }
     }
