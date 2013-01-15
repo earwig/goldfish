@@ -15,29 +15,19 @@ public class Goldfish {
 
     public void run () {
         //TODO: make it run.
-        _grid.getPatch(1,0).setState(1);
-        _grid.getPatch(2,1).setState(1);
-        _grid.getPatch(2,2).setState(1);
-        _grid.getPatch(1,2).setState(1);
-        _grid.getPatch(0,2).setState(1);
+        _grid.getPatch(1,0).setState(2);
+        _grid.getPatch(2,1).setState(2);
+        _grid.getPatch(2,2).setState(2);
+        _grid.getPatch(1,2).setState(2);
+        _grid.getPatch(0,2).setState(2);
         System.out.println(_grid);
 
-        _grid = Conway.run(_grid);
-        System.out.println("------------");
-        System.out.println(_grid);
-
-        _grid = Conway.run(_grid);
-        System.out.println("------------");
-        System.out.println(_grid);
-        
-        _grid = Conway.run(_grid);
-        System.out.println("------------");
-        System.out.println(_grid);
-
-        _grid = Conway.run(_grid);
-        System.out.println("------------");
-        System.out.println(_grid);
-    }
+        for (int i = 0; i < 6; i++) {
+            _grid = BriansBrain.run(_grid);
+            System.out.println("------------");
+            System.out.println(_grid);
+        }
+   }
 
     public static void main (String[] args) {
         Goldfish g = new Goldfish();
