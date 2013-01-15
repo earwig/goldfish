@@ -46,7 +46,7 @@ public class Patch {
     }
 
     public String toString() {
-        return _label + " " + ((_state == 1) ? "1" : ".");
+        return _label + " " + ((_state == 0) ? "." : _state);
     }
 
     public Patch[] get4Neighbors() {
