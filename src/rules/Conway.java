@@ -20,14 +20,11 @@ public class Conway extends RuleSet {
                 int numAlive = 0;
                 for (Patch neighbor : neighbors)
                     if (neighbor.getState() == 1) numAlive++;
-                //System.out.println(numAlive);
                 Patch p = g.getPatch(i,j).clone(newGrid);
                 if (numAlive < 2) {
                     p.setState(0); //Dies by underpopulation
-                    //System.out.println("ded by under");
                 }
                 if (numAlive > 3) {
-                    //System.out.println("ded by over");
                     p.setState(0); //Dies by overpopulation
                 }
                 if (numAlive == 3)
@@ -36,9 +33,6 @@ public class Conway extends RuleSet {
             }
         }
 
-        System.out.println(g);
-        System.out.println("-----");
-        System.out.println(newGrid);
         //boolean running = true;
         //while (running) {
             //running = false;
