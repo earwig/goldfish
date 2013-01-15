@@ -71,7 +71,7 @@ public class Patch {
         return neighbors;
     }
 
-    public Patch clone() {
-        return new Patch(_grid, _xcor, _ycor, _state, _label);
+    public Patch clone(Grid grid) {
+        return new Patch(grid, _xcor, _ycor, _state, _label);
     }
 }
