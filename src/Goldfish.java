@@ -9,8 +9,10 @@ public class Goldfish {
     private Render _render;
 
     public Goldfish () {
-        _render = new Render(96, 96);
-        _grid = new Grid(96, 96);
+    	int height = 96;
+    	int width = 96;
+        _render = new Render(width, height);
+        _grid = new Grid(width, height);
     }
 
     public void run () {

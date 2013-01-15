@@ -7,8 +7,6 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
-import java.util.Random;
-
 import javax.swing.JFrame;
 
 public class Render extends Canvas implements Runnable {
@@ -16,7 +14,7 @@ public class Render extends Canvas implements Runnable {
 
 	public static int width;
 	public static int height;
-	public static int scale = 2;
+	public static int scale;
 
 	public String title = "Goldfish";
 
@@ -26,11 +24,10 @@ public class Render extends Canvas implements Runnable {
 	private Grid _grid;
 	private int[] pixels;
 
-	Random random = new Random();
-
 	public Render(int width, int height, Grid g) {
 		Render.width = width;
 		Render.height = height;
+		setScale();
 		_grid = g;
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
@@ -42,6 +39,7 @@ public class Render extends Canvas implements Runnable {
 	public Render(int width, int height) {
 		Render.width = width;
 		Render.height = height;
+		setScale();
 		_grid = new Grid(width, height);
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
@@ -53,12 +51,21 @@ public class Render extends Canvas implements Runnable {
 	public Render() {
 		width = 320;
 		height = 240;
+		setScale();
 		_grid = new Grid(10, 10);
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
 		frame = new JFrame();
+	}
+
+	private void setScale() {
+		if (height < 128 || width < 128) {
+			Render.scale = 3;
+		} else if (height < 256 || width < 256) {
+			Render.scale = 2;
+		}
 	}
 
 	private void setFrame() {
@@ -79,10 +86,6 @@ public class Render extends Canvas implements Runnable {
 	public void update() {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				// draw(i,j,random.nextInt());
-				// Patch x = new Patch();
-				// x.setState(0x13bd76);
-				// _grid.setPatch(i,j,x);
 				draw(i, j, _grid.getPatch(i, j).getState() * 0xffffff);
 			}
 		}
@@ -94,7 +97,7 @@ public class Render extends Canvas implements Runnable {
 	public void render() {
 		bs = getBufferStrategy();
 		if (bs == null) {
-			createBufferStrategy(3);
+			createBufferStrategy(1);
 			return;
 		}
 
