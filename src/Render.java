@@ -1,6 +1,5 @@
 package edu.stuy.goldfish;
 
-import java.util.Date;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -99,7 +98,7 @@ public class Render extends Canvas implements Runnable {
 	}
 
 	public void sleep() {
-		long since = (new Date()).getTime() - _last_tick;
+		long since = System.currentTimeMillis() - _last_tick;
 		if (since < 1000 / max_fps) {
 			try {
 				Thread.sleep(1000 / max_fps - since);
@@ -108,7 +107,7 @@ public class Render extends Canvas implements Runnable {
 				return;
 			}
 		}
-		_last_tick = (new Date()).getTime();
+		_last_tick = System.currentTimeMillis();
 	}
 
 	public void setGrid(Grid g) {
