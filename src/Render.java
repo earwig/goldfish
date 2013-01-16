@@ -3,13 +3,17 @@ package edu.stuy.goldfish;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
-public class Render extends Canvas implements Runnable {
+public class Render extends Canvas implements Runnable, MouseListener,
+		MouseMotionListener {
 	private static final long serialVersionUID = 1L;
 
 	public static String title = "Goldfish";
@@ -25,12 +29,15 @@ public class Render extends Canvas implements Runnable {
 	private long _last_tick;
 
 	public Render(int width, int height, Grid g) {
+		addMouseListener(this);
+		addMouseMotionListener(this);
 		Render.width = width;
 		Render.height = height;
 		setScale();
 		_grid = g;
 		_image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		_pixels = ((DataBufferInt) _image.getRaster().getDataBuffer()).getData();
+		_pixels = ((DataBufferInt) _image.getRaster().getDataBuffer())
+				.getData();
 		_last_tick = 0;
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
@@ -104,8 +111,7 @@ public class Render extends Canvas implements Runnable {
 		if (since < 1000 / max_fps) {
 			try {
 				Thread.sleep(1000 / max_fps - since);
-			}
-			catch (InterruptedException e) {
+			} catch (InterruptedException e) {
 				return;
 			}
 		}
@@ -118,5 +124,41 @@ public class Render extends Canvas implements Runnable {
 
 	public void draw(int x, int y, int color) {
 		_pixels[x + y * width] = color;
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		_grid.getPatch(e.getX() / scale, e.getY() / scale).setState(1);
+		draw(e.getX() / scale, e.getY() / scale, 0xffffff);
+		e.consume();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
 	}
 }
