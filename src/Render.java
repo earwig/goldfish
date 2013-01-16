@@ -123,16 +123,15 @@ public class Render extends Canvas implements Runnable, MouseListener,
         _frame.setVisible(true);
     }
 
-    private void clear() {
-        for (int x = 0; x < _pixels.length; x++) {
-            _pixels[x] = 0;
-        }
-    }
-
+    int state;
     private void update() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                draw(i, j, _grid.getPatch(i, j).getState() * 0xffffff);
+                state = _grid.getPatch(i, j).getState();
+                if(_pixels[i + j * width] == state) {
+                } else {
+                    draw(i, j, state * 0xffffff);
+                }
             }
         }
     }
@@ -147,7 +146,6 @@ public class Render extends Canvas implements Runnable, MouseListener,
             return;
         }
 
-        clear();
         update();
 
         g = bs.getDrawGraphics();
