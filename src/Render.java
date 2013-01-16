@@ -128,16 +128,16 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		try {
-			_grid.getPatch(e.getX() / scale, e.getY() / scale).setState(1);
-			draw(e.getX() / scale, e.getY() / scale, 0xffffff);
-		} catch (ArrayIndexOutOfBoundsException exception) {
-		}
+		if (e.getX() < 0 || e.getY() < 0 || e.getX() / scale > width || e.getY() / scale > height)
+			return;
+		_grid.getPatch(e.getX() / scale, e.getY() / scale).setState(1);
 		e.consume();
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		_grid.getPatch(e.getX() / scale, e.getY() / scale).setState(1);
+		e.consume();
 	}
 
 	@Override
