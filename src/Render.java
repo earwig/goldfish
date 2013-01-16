@@ -3,6 +3,11 @@ package edu.stuy.goldfish;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -10,10 +15,18 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.KeyStroke;
 
 public class Render extends Canvas implements Runnable, MouseListener,
-        MouseMotionListener {
+        MouseMotionListener, ActionListener, ItemListener {
     private static final long serialVersionUID = 1L;
 
     public static String title = "Goldfish";
@@ -22,11 +35,17 @@ public class Render extends Canvas implements Runnable, MouseListener,
     public static int scale;
     public static int max_fps = 15;
 
+    public boolean paused;
     private JFrame _frame;
     private BufferedImage _image;
     private Grid _grid;
     private int[] _pixels;
     private long _last_tick;
+
+    JMenuBar menu_bar;
+    JMenu menu_main, menu_algo;
+    JMenuItem menu_algo_conway;
+    JCheckBoxMenuItem pause_button;
 
     public Render(int width, int height, Grid g) {
         addMouseListener(this);
@@ -42,6 +61,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
         Dimension size = new Dimension(width * scale, height * scale);
         setPreferredSize(size);
         setFrame();
+        menu_algo_conway.addActionListener(this);
+        pause_button.addActionListener(this);
     }
 
     public Render(int width, int height) {
@@ -63,7 +84,36 @@ public class Render extends Canvas implements Runnable, MouseListener,
     }
 
     private void setFrame() {
+        menu_bar = new JMenuBar();
+
+        menu_main = new JMenu("Menu");
+
+        menu_algo = new JMenu("Algorithms");
+
+        menu_algo_conway = new JMenuItem("Conway");
+        menu_algo.add(menu_algo_conway);
+
+        menu_main.add(menu_algo);
+        menu_bar.add(menu_main);
+
+        pause_button = new JCheckBoxMenuItem("Pause");
+        menu_bar.add(pause_button);
+        ItemListener pauseListener = new ItemListener() {
+            public void itemStateChanged(ItemEvent event) {
+                AbstractButton pause_button = (AbstractButton) event
+                        .getSource();
+                if (event.getStateChange() == ItemEvent.SELECTED) {
+                    paused = true;
+                } else {
+                    paused = false;
+                }
+                return;
+            }
+        };
+        pause_button.addItemListener(pauseListener);
+
         _frame = new JFrame();
+        _frame.setJMenuBar(menu_bar);
         _frame.setResizable(false);
         _frame.setTitle(title);
         _frame.add(this);
@@ -161,4 +211,13 @@ public class Render extends Canvas implements Runnable, MouseListener,
     @Override
     public void mouseMoved(MouseEvent e) {
     }
+
+    @Override
+    public void itemStateChanged(ItemEvent arg0) {
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+    }
+
 }

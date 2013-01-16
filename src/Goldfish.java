@@ -25,7 +25,9 @@ public class Goldfish {
         }
 
         while (true) {
-            _grid = Conway.run(_grid);
+        	if(!_render.paused){
+        		_grid = Conway.run(_grid);
+        	}
             _render.setGrid(_grid);
             _render.run();
             _render.sleep();
