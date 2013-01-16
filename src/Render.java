@@ -43,12 +43,12 @@ public class Render extends Canvas implements Runnable {
 	}
 
 	public Render() {
-		this(256, 256, new Grid(128, 128));
+		this(256, 256);
 	}
 
 	private void setScale() {
 		if (height <= 128 || width <= 128) {
-			Render.scale = 3;
+			Render.scale = 4;
 		} else if (height <= 256 || width <= 256) {
 			Render.scale = 2;
 		}

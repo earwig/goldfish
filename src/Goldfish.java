@@ -7,8 +7,8 @@ public class Goldfish {
     private Render _render;
 
     public Goldfish() {
-    	int height = 96;
-    	int width = 96;
+    	int height = 128;
+    	int width = 128;
         _grid = new Grid(width, height);
         _render = new Render(width, height, _grid);
     }
