@@ -3,15 +3,14 @@ package edu.stuy.goldfish;
 import edu.stuy.goldfish.rules.*;
 
 public class Goldfish {
-
     private Grid _grid;
     private Render _render;
 
     public Goldfish() {
     	int height = 96;
     	int width = 96;
-        _render = new Render(width, height);
         _grid = new Grid(width, height);
+        _render = new Render(width, height, _grid);
     }
 
     public void run() {
@@ -25,6 +24,7 @@ public class Goldfish {
             _grid = Conway.run(_grid);
             _render.setGrid(_grid);
             _render.run();
+            _render.sleep();
         }
    }
 

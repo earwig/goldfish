@@ -16,74 +16,61 @@ public class Render extends Canvas implements Runnable {
 	public static int height;
 	public static int scale;
 
+	private static int max_fps = 15;
+
 	public String title = "Goldfish";
 
-	private JFrame frame;
-
-	private BufferedImage image;
+	private JFrame _frame;
+	private BufferedImage _image;
 	private Grid _grid;
-	private int[] pixels;
+	private int[] _pixels;
 
 	public Render(int width, int height, Grid g) {
 		Render.width = width;
 		Render.height = height;
 		setScale();
 		_grid = g;
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+		_image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		_pixels = ((DataBufferInt) _image.getRaster().getDataBuffer()).getData();
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
 		setFrame();
 	}
 
 	public Render(int width, int height) {
-		Render.width = width;
-		Render.height = height;
-		setScale();
-		_grid = new Grid(width, height);
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-		Dimension size = new Dimension(width * scale, height * scale);
-		setPreferredSize(size);
-		setFrame();
+		this(width, height, new Grid(width, height));
 	}
 
 	public Render() {
-		width = 320;
-		height = 240;
-		setScale();
-		_grid = new Grid(10, 10);
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-		Dimension size = new Dimension(width * scale, height * scale);
-		setPreferredSize(size);
-		frame = new JFrame();
+		this(256, 256, new Grid(128, 128));
 	}
 
 	private void setScale() {
-		if (height < 128 || width < 128) {
+		if (height <= 128 || width <= 128) {
 			Render.scale = 3;
-		} else if (height < 256 || width < 256) {
+		} else if (height <= 256 || width <= 256) {
 			Render.scale = 2;
 		}
 	}
 
 	private void setFrame() {
-		frame = new JFrame();
-		frame.setResizable(false);
-		frame.setTitle(title);
-		frame.add(this);
-		frame.pack();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		_frame = new JFrame();
+		_frame.setResizable(false);
+		_frame.setTitle(title);
+		_frame.add(this);
+		_frame.pack();
+		_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		_frame.setLocationRelativeTo(null);
+		_frame.setVisible(true);
 	}
 
-	public void run() {
-		render();
+	private void clear() {
+		for (int x = 0; x < _pixels.length; x++) {
+			_pixels[x] = 0;
+		}
 	}
 
-	public void update() {
+	private void update() {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				draw(i, j, _grid.getPatch(i, j).getState() * 0xffffff);
@@ -91,10 +78,10 @@ public class Render extends Canvas implements Runnable {
 		}
 	}
 
-	BufferStrategy bs;
-	Graphics g;
+	public void run() {
+		BufferStrategy bs;
+		Graphics g;
 
-	public void render() {
 		bs = getBufferStrategy();
 		if (bs == null) {
 			createBufferStrategy(1);
@@ -105,15 +92,13 @@ public class Render extends Canvas implements Runnable {
 		update();
 
 		g = bs.getDrawGraphics();
-		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		g.drawImage(_image, 0, 0, getWidth(), getHeight(), null);
 		g.dispose();
 		bs.show();
 	}
 
-	public void clear() {
-		for (int x = 0; x < pixels.length; x++) {
-			pixels[x] = 0;
-		}
+	public void sleep() {
+
 	}
 
 	public void setGrid(Grid g) {
@@ -121,13 +106,6 @@ public class Render extends Canvas implements Runnable {
 	}
 
 	public void draw(int x, int y, int color) {
-		pixels[x + y * width] = color;
-	}
-
-	public static void main(String[] args) {
-		Render render = new Render(320, 240);
-		while (true) {
-			render.run();
-		}
+		_pixels[x + y * width] = color;
 	}
 }
