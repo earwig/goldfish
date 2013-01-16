@@ -2,19 +2,17 @@ package edu.stuy.goldfish;
 
 public class Patch {
     private int _xcor, _ycor, _state;
-    private String _label;
     private Grid _grid;
 
-    public Patch(Grid grid, int xcor, int ycor, int state, String label) {
+    public Patch(Grid grid, int xcor, int ycor, int state) {
         _grid = grid;
         _xcor = xcor;
         _ycor = ycor;
         _state = state;
-        _label = label;
     }
 
     public Patch() {
-        this(new Grid(), 0, 0, 0, "");
+        this(new Grid(), 0, 0, 0);
     }
 
     public Grid getGrid() {
@@ -37,16 +35,8 @@ public class Patch {
         _state = state;
     }
 
-    public String getLabel() {
-        return _label;
-    }
-
-    public void setLabel(String label) {
-        _label = label;
-    }
-
     public String toString() {
-        return _label + " " + ((_state == 0) ? "." : _state);
+        return "" + ((_state == 0) ? "." : _state);
     }
 
     public Patch[] get4Neighbors() {
@@ -72,6 +62,6 @@ public class Patch {
     }
 
     public Patch clone(Grid grid) {
-        return new Patch(grid, _xcor, _ycor, _state, _label);
+        return new Patch(grid, _xcor, _ycor, _state);
     }
 }

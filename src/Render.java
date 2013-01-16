@@ -150,6 +150,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		_grid.getPatch(e.getX() / scale, e.getY() / scale).setState(1);
+		e.consume();
 	}
 
 	@Override
