@@ -50,6 +50,8 @@ public class Render extends Canvas implements Runnable {
 			Render.scale = 4;
 		} else if (height <= 256 || width <= 256) {
 			Render.scale = 2;
+		} else {
+			Render.scale = 1;
 		}
 	}
 
