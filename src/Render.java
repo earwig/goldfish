@@ -1,5 +1,6 @@
 package edu.stuy.goldfish;
 
+import java.util.Date;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -12,18 +13,17 @@ import javax.swing.JFrame;
 public class Render extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
+	public static String title = "Goldfish";
 	public static int width;
 	public static int height;
 	public static int scale;
-
-	private static int max_fps = 15;
-
-	public String title = "Goldfish";
+	public static int max_fps = 15;
 
 	private JFrame _frame;
 	private BufferedImage _image;
 	private Grid _grid;
 	private int[] _pixels;
+	private long _last_tick;
 
 	public Render(int width, int height, Grid g) {
 		Render.width = width;
@@ -32,6 +32,7 @@ public class Render extends Canvas implements Runnable {
 		_grid = g;
 		_image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		_pixels = ((DataBufferInt) _image.getRaster().getDataBuffer()).getData();
+		_last_tick = 0;
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
 		setFrame();
@@ -98,7 +99,16 @@ public class Render extends Canvas implements Runnable {
 	}
 
 	public void sleep() {
-
+		long since = (new Date()).getTime() - _last_tick;
+		if (since < 1000 / max_fps) {
+			try {
+				Thread.sleep(1000 / max_fps - since);
+			}
+			catch (InterruptedException e) {
+				return;
+			}
+		}
+		_last_tick = (new Date()).getTime();
 	}
 
 	public void setGrid(Grid g) {
