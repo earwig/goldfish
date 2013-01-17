@@ -1,5 +1,7 @@
 package edu.stuy.goldfish;
 
+import java.util.Random;
+
 import edu.stuy.goldfish.rules.*;
 
 public class Goldfish {
@@ -7,6 +9,8 @@ public class Goldfish {
 
     private Grid _grid;
     private Render _render;
+    
+    private Random random = new Random();
 
     public Goldfish() {
         int width = 128;
@@ -16,8 +20,12 @@ public class Goldfish {
     }
 
     public void run() {
-        setup();
+        setup(_render.rule);
         while (true) {
+        	if (_render.reset) {
+        		setup(_render.rule);
+        		_render.reset = false;
+        	}
         	if (!_render.paused) {
                 String rule = _render.rule;
                 if (rule.equals("Conway"))
@@ -35,7 +43,6 @@ public class Goldfish {
         }
     }
 
-
     public static int getMaxStates(String rule) {
             if (rule.equals("Conway"))
                 return Conway.states;
@@ -47,16 +54,42 @@ public class Goldfish {
                 return BriansBrain.states;
             return 2;
     }
-    private void setup() {
-        for (int i = 0; i < _grid.getWidth(); i += 16) {
-            for (int j = 0; j < _grid.getHeight(); j += 16) {
-                _grid.getPatch(i + 1, j + 0).setState(1);
-                _grid.getPatch(i + 2, j + 1).setState(1);
-                _grid.getPatch(i + 2, j + 2).setState(1);
-                _grid.getPatch(i + 1, j + 2).setState(1);
-                _grid.getPatch(i + 0, j + 2).setState(1);
-            }
-        }
+
+    private void setup(String rule) {
+    	if(rule.equals("Conway")) {
+    		int[][] glidergun = {
+    			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
+    			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0},
+    			{0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
+    			{0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
+    			{1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    			{1,1,0,0,0,0,0,0,0,0,1,0,0,0,1,0,1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0},
+    			{0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
+    			{0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    			{0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+    		};
+    		for(int i = 0; i < 36; i++) {
+    			for(int j = 0; j < 9; j++) {
+    				_grid.getPatch(i+2,j+2).setState(glidergun[j][i]);
+    			}
+    		}
+    	} else if (rule.equals("Life Without Death")) {
+    		int[][] pattern = {
+				{1,1,1,1,0,1},
+				{1,0,1,1,1,1}
+    		};
+    		for(int i = 0; i < 6; i++) {
+    			for(int j = 0; j < 2; j++) {
+    				_grid.getPatch(i+((_grid.getHeight()-6)/2),j+((_grid.getWidth()-2)/2)).setState(pattern[j][i]);
+    			}
+    		}
+    	} else if (rule.equals("Brian's Brain")) {
+    		for(int i = 0; i < _grid.getHeight(); i++) {
+    			for (int j = 0; j < _grid.getWidth(); j++) {
+    				_grid.getPatch(i,j).setState(random.nextInt(3));
+    			}
+    		}
+    	}
     }
 
     public static void main(String[] args) {

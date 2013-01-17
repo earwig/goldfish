@@ -18,13 +18,18 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
     public boolean paused;
     public String rule;
+    public boolean reset;
 
     private Grid _grid;
-    private BufferedImage _image;
     private int[] _pixels;
+
+    private BufferedImage _image;
+
     private long _lastTick;
     private String[] _rules;
     private JFrame _frame;
+
+    private JButton pauseButton;
 
     public Render(int width, int height, Grid g, String[] rules) {
         addMouseListener(this);
@@ -33,6 +38,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
         Render.height = height;
         setScale();
         paused = false;
+        reset = false;
         rule = rules[0];
         _grid = g;
         _image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -78,9 +84,20 @@ public class Render extends Canvas implements Runnable, MouseListener,
         menuMain.add(menuAlgo);
         menuBar.add(menuMain);
 
-        JCheckBoxMenuItem pauseButton = new JCheckBoxMenuItem("Pause");
+        pauseButton = new JButton("Pause");
+        pauseButton.setActionCommand("pause");
         menuBar.add(pauseButton);
-        pauseButton.addItemListener(this);
+        pauseButton.addActionListener(this);
+
+        JButton resetButton = new JButton("Reset");
+        resetButton.setActionCommand("reset");
+        menuBar.add(resetButton);
+        resetButton.addActionListener(this);
+        
+        JButton clearButton = new JButton("Clear");
+        clearButton.setActionCommand("clear");
+        menuBar.add(clearButton);
+        clearButton.addActionListener(this);
 
         _frame = new JFrame();
         _frame.setJMenuBar(menuBar);
@@ -99,9 +116,9 @@ public class Render extends Canvas implements Runnable, MouseListener,
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 state = _grid.getPatch(i, j).getState();
-                if(_pixels[i + j * width] == state) {
+                if (_pixels[i + j * width] == state) {
                 } else {
-                    draw(i, j, (int) ((state/((double) states - 1)) * 0xffffff));
+                    draw(i, j, (int) ((state / ((double) states - 1)) * 0xffffff));
                 }
             }
         }
@@ -143,6 +160,14 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
     public void draw(int x, int y, int color) {
         _pixels[x + y * width] = color;
+    }
+    
+    public void clear() {
+        for (int i = 0; i < _grid.getHeight(); i++) {
+            for (int j = 0; j < _grid.getWidth(); j++) {
+                _grid.getPatch(i, j).setState(0);
+            }
+        }
     }
 
     @Override
@@ -187,16 +212,25 @@ public class Render extends Canvas implements Runnable, MouseListener,
     // Affects the algorithms menu
     @Override
     public void actionPerformed(ActionEvent event) {
-        rule = event.getActionCommand();
+        if ("pause".equals(event.getActionCommand())) {
+            if (paused) {
+                paused = false;
+                pauseButton.setText("Pause");
+            } else {
+                paused = true;
+                pauseButton.setText("Unpause");
+            }
+        } else if ("reset".equals(event.getActionCommand())) {
+            clear();
+            reset = true;
+        } else if ("clear".equals(event.getActionCommand())) {
+            clear();
+        } else {
+            rule = event.getActionCommand();
+        }
     }
 
-    // Affects the pause button
     @Override
     public void itemStateChanged(ItemEvent event) {
-        if (event.getStateChange() == ItemEvent.SELECTED)
-            paused = true;
-        else
-            paused = false;
-        return;
     }
 }
