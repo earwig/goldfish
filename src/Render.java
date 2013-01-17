@@ -17,23 +17,19 @@ public class Render extends Canvas implements Runnable, MouseListener,
     public static int width;
     public static int height;
     public static int scale;
-    public int fps_now;
 
+    public int fps_now;
     public boolean paused;
     public String rule;
     public boolean reset;
 
     private Grid _grid;
     private int[] _pixels;
-
     private BufferedImage _image;
-
     private long _lastTick;
     private String[] _rules;
     private JFrame _frame;
-
     private JButton pauseButton;
-
     private Random random = new Random();
 
     public Render(int width, int height, Grid g, String[] rules) {
@@ -80,15 +76,13 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
     private void setFrame() {
         JMenuBar menuBar = new JMenuBar();
-        JMenu menuMain = new JMenu("Menu");
         JMenu menuAlgo = new JMenu("Algorithms");
         for (String rule : _rules) {
             JMenuItem menuAlgoItem = new JMenuItem(rule);
             menuAlgo.add(menuAlgoItem);
             menuAlgoItem.addActionListener(this);
         }
-        menuMain.add(menuAlgo);
-        menuBar.add(menuMain);
+        menuBar.add(menuAlgo);
 
         pauseButton = new JButton("Pause");
         pauseButton.setActionCommand("pause");
