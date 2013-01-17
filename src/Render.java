@@ -1,5 +1,7 @@
 package edu.stuy.goldfish;
 
+import java.util.Random;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -7,13 +9,11 @@ import java.awt.image.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import java.util.Random;
-
 public class Render extends Canvas implements Runnable, MouseListener,
         MouseMotionListener, ActionListener {
     private static final long serialVersionUID = 1L;
 
-    public static String title = "Goldfish";
+    public static String title;
     public static int width;
     public static int height;
     public static int scale;
@@ -35,6 +35,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
     public Render(int width, int height, Grid g, String[] rules) {
         addMouseListener(this);
         addMouseMotionListener(this);
+        Render.title = "Goldfish: " + rules[0];
         Render.width = width;
         Render.height = height;
         setScale();
@@ -128,7 +129,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
         framesPerSecond.setPaintLabels(true);
         framesPerSecond.setPreferredSize(new Dimension(100,40));
         menuBar.add(framesPerSecond);
-        
+
         setPreferredSize(new Dimension(width * scale, height * scale));
         _frame = new JFrame();
         _frame.setJMenuBar(menuBar);
@@ -267,6 +268,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
             clear();
         } else {
             rule = event.getActionCommand();
+            title = "Goldfish: " + rule;
+            _frame.setTitle(title);
         }
     }
 }
