@@ -95,12 +95,13 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
     private void update() {
         int state;
+        int states = Goldfish.getMaxStates(rule);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 state = _grid.getPatch(i, j).getState();
                 if(_pixels[i + j * width] == state) {
                 } else {
-                    draw(i, j, state * 0xffffff);
+                    draw(i, j, (int) ((state/((double) states - 1)) * 0xffffff));
                 }
             }
         }
@@ -146,15 +147,17 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        int states = Goldfish.getMaxStates(rule) - 1;
         if (e.getX() < 0 || e.getY() < 0 || e.getX() / scale > width || e.getY() / scale > height)
             return;
-        _grid.getPatch(e.getX() / scale, e.getY() / scale).setState(1);
+        _grid.getPatch(e.getX() / scale, e.getY() / scale).setState(states);
         e.consume();
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        _grid.getPatch(e.getX() / scale, e.getY() / scale).setState(1);
+        int states = Goldfish.getMaxStates(rule) - 1;
+        _grid.getPatch(e.getX() / scale, e.getY() / scale).setState(states);
         e.consume();
     }
 
@@ -168,7 +171,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
     @Override
     public void mousePressed(MouseEvent e) {
-        _grid.getPatch(e.getX() / scale, e.getY() / scale).setState(1);
+        int states = Goldfish.getMaxStates(rule) - 1;
+        _grid.getPatch(e.getX() / scale, e.getY() / scale).setState(states);
         e.consume();
     }
 

@@ -35,6 +35,18 @@ public class Goldfish {
         }
     }
 
+
+    public static int getMaxStates(String rule) {
+            if (rule.equals("Conway"))
+                return Conway.states;
+            else if (rule.equals("Conway4"))
+                return Conway4.states;
+            else if (rule.equals("Life Without Death"))
+                return LifeWithoutDeath.states;
+            else if (rule.equals("Brian's Brain"))
+                return BriansBrain.states;
+            return 2;
+    }
     private void setup() {
         for (int i = 0; i < _grid.getWidth(); i += 16) {
             for (int j = 0; j < _grid.getHeight(); j += 16) {
