@@ -248,7 +248,6 @@ public class Render extends Canvas implements Runnable, MouseListener,
     public void mouseMoved(MouseEvent e) {
     }
 
-    // Affects the algorithms menu
     @Override
     public void actionPerformed(ActionEvent event) {
         if ("pause".equals(event.getActionCommand())) {

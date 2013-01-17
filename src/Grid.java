@@ -35,11 +35,11 @@ public class Grid {
     }
 
     public int getWidth() {
-        return _grid.length;
+        return _grid[0].length;
     }
 
     public int getHeight() {
-        return _grid[0].length;
+        return _grid.length;
     }
 
     public Patch getPatch(int x, int y) {
