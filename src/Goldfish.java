@@ -9,7 +9,6 @@ public class Goldfish {
 
     private Grid _grid;
     private Render _render;
-    
     private Random random = new Random();
 
     public Goldfish() {
@@ -22,11 +21,11 @@ public class Goldfish {
     public void run() {
         setup(_render.rule);
         while (true) {
-        	if (_render.reset) {
-        		setup(_render.rule);
-        		_render.reset = false;
+            if (_render.reset) {
+                setup(_render.rule);
+                _render.reset = false;
         	}
-        	if (!_render.paused) {
+            if (!_render.paused) {
                 String rule = _render.rule;
                 if (rule.equals("Conway"))
                     _grid = Conway.run(_grid);
