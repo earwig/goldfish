@@ -1,29 +1,10 @@
 package edu.stuy.goldfish;
 
-import java.awt.Canvas;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.*;
 
-import javax.swing.AbstractButton;
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 
 public class Render extends Canvas implements Runnable, MouseListener,
         MouseMotionListener, ActionListener, ItemListener {
@@ -36,33 +17,35 @@ public class Render extends Canvas implements Runnable, MouseListener,
     public static int max_fps = 15;
 
     public boolean paused;
-    private JFrame _frame;
-    private BufferedImage _image;
+    public String rule;
+
     private Grid _grid;
+    private BufferedImage _image;
     private int[] _pixels;
-    private long _last_tick;
+    private long _lastTick;
+    private String[] _rules;
+    private JFrame _frame;
 
-    JMenuBar menu_bar;
-    JMenu menu_main, menu_algo;
-    JMenuItem menu_algo_conway;
-    JCheckBoxMenuItem pause_button;
-
-    public Render(int width, int height, Grid g) {
+    public Render(int width, int height, Grid g, String[] rules) {
         addMouseListener(this);
         addMouseMotionListener(this);
         Render.width = width;
         Render.height = height;
         setScale();
+        paused = false;
+        rule = rules[0];
         _grid = g;
         _image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        _pixels = ((DataBufferInt) _image.getRaster().getDataBuffer())
-                .getData();
-        _last_tick = 0;
+        _pixels = ((DataBufferInt) _image.getRaster().getDataBuffer()).getData();
+        _lastTick = 0;
+        _rules = rules;
         Dimension size = new Dimension(width * scale, height * scale);
         setPreferredSize(size);
         setFrame();
-        menu_algo_conway.addActionListener(this);
-        pause_button.addActionListener(this);
+    }
+
+    public Render(int width, int height, Grid g) {
+        this(width, height, g, new String[0]);
     }
 
     public Render(int width, int height) {
@@ -84,36 +67,23 @@ public class Render extends Canvas implements Runnable, MouseListener,
     }
 
     private void setFrame() {
-        menu_bar = new JMenuBar();
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menuMain = new JMenu("Menu");
+        JMenu menuAlgo = new JMenu("Algorithms");
+        for (String rule : _rules) {
+            JMenuItem menuAlgoItem = new JMenuItem(rule);
+            menuAlgo.add(menuAlgoItem);
+            menuAlgoItem.addActionListener(this);
+        }
+        menuMain.add(menuAlgo);
+        menuBar.add(menuMain);
 
-        menu_main = new JMenu("Menu");
-
-        menu_algo = new JMenu("Algorithms");
-
-        menu_algo_conway = new JMenuItem("Conway");
-        menu_algo.add(menu_algo_conway);
-
-        menu_main.add(menu_algo);
-        menu_bar.add(menu_main);
-
-        pause_button = new JCheckBoxMenuItem("Pause");
-        menu_bar.add(pause_button);
-        ItemListener pauseListener = new ItemListener() {
-            public void itemStateChanged(ItemEvent event) {
-                AbstractButton pause_button = (AbstractButton) event
-                        .getSource();
-                if (event.getStateChange() == ItemEvent.SELECTED) {
-                    paused = true;
-                } else {
-                    paused = false;
-                }
-                return;
-            }
-        };
-        pause_button.addItemListener(pauseListener);
+        JCheckBoxMenuItem pauseButton = new JCheckBoxMenuItem("Pause");
+        menuBar.add(pauseButton);
+        pauseButton.addItemListener(this);
 
         _frame = new JFrame();
-        _frame.setJMenuBar(menu_bar);
+        _frame.setJMenuBar(menuBar);
         _frame.setResizable(false);
         _frame.setTitle(title);
         _frame.add(this);
@@ -123,8 +93,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
         _frame.setVisible(true);
     }
 
-    int state;
     private void update() {
+        int state;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 state = _grid.getPatch(i, j).getState();
@@ -155,7 +125,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
     }
 
     public void sleep() {
-        long since = System.currentTimeMillis() - _last_tick;
+        long since = System.currentTimeMillis() - _lastTick;
         if (since < 1000 / max_fps) {
             try {
                 Thread.sleep(1000 / max_fps - since);
@@ -163,7 +133,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
                 return;
             }
         }
-        _last_tick = System.currentTimeMillis();
+        _lastTick = System.currentTimeMillis();
     }
 
     public void setGrid(Grid g) {
@@ -210,12 +180,19 @@ public class Render extends Canvas implements Runnable, MouseListener,
     public void mouseMoved(MouseEvent e) {
     }
 
+    // Affects the algorithms menu
     @Override
-    public void itemStateChanged(ItemEvent arg0) {
+    public void actionPerformed(ActionEvent event) {
+        rule = event.getActionCommand();
     }
 
+    // Affects the pause button
     @Override
-    public void actionPerformed(ActionEvent arg0) {
+    public void itemStateChanged(ItemEvent event) {
+        if (event.getStateChange() == ItemEvent.SELECTED)
+            paused = true;
+        else
+            paused = false;
+        return;
     }
-
 }
