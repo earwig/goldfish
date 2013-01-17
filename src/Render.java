@@ -47,8 +47,6 @@ public class Render extends Canvas implements Runnable, MouseListener,
         _lastTick = 0;
         _rules = rules;
         fps_now = 15;
-        Dimension size = new Dimension(width * scale, height * scale);
-        setPreferredSize(size);
         setFrame();
     }
 
@@ -128,8 +126,10 @@ public class Render extends Canvas implements Runnable, MouseListener,
         framesPerSecond.setMinorTickSpacing(1);
         framesPerSecond.setPaintTicks(true);
         framesPerSecond.setPaintLabels(true);
+        framesPerSecond.setPreferredSize(new Dimension(100,40));
         menuBar.add(framesPerSecond);
-
+        
+        setPreferredSize(new Dimension(width * scale, height * scale));
         _frame = new JFrame();
         _frame.setJMenuBar(menuBar);
         _frame.setResizable(false);
