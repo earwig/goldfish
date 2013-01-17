@@ -84,11 +84,7 @@ public class Goldfish {
     			}
     		}
     	} else if (rule.equals("Brian's Brain")) {
-    		for(int i = 0; i < _grid.getHeight(); i++) {
-    			for (int j = 0; j < _grid.getWidth(); j++) {
-    				_grid.getPatch(i,j).setState(random.nextInt(3));
-    			}
-    		}
+    		_render.randomize();
     	}
     }
 

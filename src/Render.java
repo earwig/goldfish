@@ -6,8 +6,10 @@ import java.awt.image.*;
 
 import javax.swing.*;
 
+import java.util.Random;
+
 public class Render extends Canvas implements Runnable, MouseListener,
-        MouseMotionListener, ActionListener, ItemListener {
+        MouseMotionListener, ActionListener {
     private static final long serialVersionUID = 1L;
 
     public static String title = "Goldfish";
@@ -30,6 +32,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
     private JFrame _frame;
 
     private JButton pauseButton;
+    
+    private Random random = new Random();
 
     public Render(int width, int height, Grid g, String[] rules) {
         addMouseListener(this);
@@ -93,6 +97,11 @@ public class Render extends Canvas implements Runnable, MouseListener,
         resetButton.setActionCommand("reset");
         menuBar.add(resetButton);
         resetButton.addActionListener(this);
+        
+        JButton randomButton = new JButton("Random");
+        randomButton.setActionCommand("random");
+        menuBar.add(randomButton);
+        randomButton.addActionListener(this);
         
         JButton clearButton = new JButton("Clear");
         clearButton.setActionCommand("clear");
@@ -169,6 +178,14 @@ public class Render extends Canvas implements Runnable, MouseListener,
             }
         }
     }
+    
+    public void randomize() {
+        for(int i = 0; i < _grid.getHeight(); i++) {
+            for (int j = 0; j < _grid.getWidth(); j++) {
+                _grid.getPatch(i,j).setState(random.nextInt(Goldfish.getMaxStates(rule)));
+            }
+        }
+    }
 
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -223,14 +240,12 @@ public class Render extends Canvas implements Runnable, MouseListener,
         } else if ("reset".equals(event.getActionCommand())) {
             clear();
             reset = true;
+        } else if ("random".equals(event.getActionCommand())) {
+            randomize();
         } else if ("clear".equals(event.getActionCommand())) {
             clear();
         } else {
             rule = event.getActionCommand();
         }
-    }
-
-    @Override
-    public void itemStateChanged(ItemEvent event) {
     }
 }
