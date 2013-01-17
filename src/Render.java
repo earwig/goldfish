@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.awt.image.*;
 
 import javax.swing.*;
+import javax.swing.event.*;
 
 import java.util.Random;
 
@@ -16,7 +17,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
     public static int width;
     public static int height;
     public static int scale;
-    public static int max_fps = 15;
+    public int fps_now;
 
     public boolean paused;
     public String rule;
@@ -32,7 +33,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
     private JFrame _frame;
 
     private JButton pauseButton;
-    
+
     private Random random = new Random();
 
     public Render(int width, int height, Grid g, String[] rules) {
@@ -49,6 +50,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
         _pixels = ((DataBufferInt) _image.getRaster().getDataBuffer()).getData();
         _lastTick = 0;
         _rules = rules;
+        fps_now = 15;
         Dimension size = new Dimension(width * scale, height * scale);
         setPreferredSize(size);
         setFrame();
@@ -90,6 +92,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
         pauseButton = new JButton("Pause");
         pauseButton.setActionCommand("pause");
+        pauseButton.setPreferredSize(new Dimension(90,0));
         menuBar.add(pauseButton);
         pauseButton.addActionListener(this);
 
@@ -97,16 +100,41 @@ public class Render extends Canvas implements Runnable, MouseListener,
         resetButton.setActionCommand("reset");
         menuBar.add(resetButton);
         resetButton.addActionListener(this);
-        
+
         JButton randomButton = new JButton("Random");
         randomButton.setActionCommand("random");
         menuBar.add(randomButton);
         randomButton.addActionListener(this);
-        
+
         JButton clearButton = new JButton("Clear");
         clearButton.setActionCommand("clear");
         menuBar.add(clearButton);
         clearButton.addActionListener(this);
+
+        JSlider framesPerSecond = new JSlider(JSlider.HORIZONTAL, 0, 30, 15);
+        ChangeListener fpschange = new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent event) {
+                JSlider source = (JSlider) event.getSource();
+                if (!source.getValueIsAdjusting()) {
+                    int fps = (int) source.getValue();
+                    if (fps == 0) {
+                        paused = true;
+                        pauseButton.setText("Unpause");
+                    } else {
+                        paused = false;
+                        fps_now = fps;
+                        pauseButton.setText("Pause");
+                    }
+                }
+            }
+        };
+        framesPerSecond.addChangeListener(fpschange);
+        framesPerSecond.setMajorTickSpacing(10);
+        framesPerSecond.setMinorTickSpacing(1);
+        framesPerSecond.setPaintTicks(true);
+        framesPerSecond.setPaintLabels(true);
+        menuBar.add(framesPerSecond);
 
         _frame = new JFrame();
         _frame.setJMenuBar(menuBar);
@@ -153,9 +181,9 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
     public void sleep() {
         long since = System.currentTimeMillis() - _lastTick;
-        if (since < 1000 / max_fps) {
+        if (since < 1000 / fps_now) {
             try {
-                Thread.sleep(1000 / max_fps - since);
+                Thread.sleep(1000 / fps_now - since);
             } catch (InterruptedException e) {
                 return;
             }
@@ -170,7 +198,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
     public void draw(int x, int y, int color) {
         _pixels[x + y * width] = color;
     }
-    
+
     public void clear() {
         for (int i = 0; i < _grid.getHeight(); i++) {
             for (int j = 0; j < _grid.getWidth(); j++) {
@@ -178,11 +206,11 @@ public class Render extends Canvas implements Runnable, MouseListener,
             }
         }
     }
-    
+
     public void randomize() {
-        for(int i = 0; i < _grid.getHeight(); i++) {
+        for (int i = 0; i < _grid.getHeight(); i++) {
             for (int j = 0; j < _grid.getWidth(); j++) {
-                _grid.getPatch(i,j).setState(random.nextInt(Goldfish.getMaxStates(rule)));
+                _grid.getPatch(i, j).setState(random.nextInt(Goldfish.getMaxStates(rule)));
             }
         }
     }
