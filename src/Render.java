@@ -212,21 +212,27 @@ public class Render extends Canvas implements Runnable, MouseListener,
         }
     }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        int states = Goldfish.getMaxStates(rule) - 1;
+    public void mouseDraw(MouseEvent e) {
+        int states = Goldfish.getMaxStates(rule);
         if (e.getX() < 0 || e.getY() < 0 || e.getX() / scale >= width || e.getY() / scale >= height)
             return;
         Patch p = _grid.getPatch(e.getX()/scale, e.getY()/scale);
         if (_lastPatch != p) {
             if (p.getState() != 0) {
                 p.setState(0);
+            } else if (states > 2 && SwingUtilities.isRightMouseButton(e)) {
+                p.setState(1);
             } else {
-                _grid.getPatch(e.getX() / scale, e.getY() / scale).setState(states);
+                p.setState(states - 1);
             }
             _lastPatch = p;
         }
         e.consume();
+    }
+    
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        mouseDraw(e);
     }
 
     @Override
@@ -243,14 +249,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
     @Override
     public void mousePressed(MouseEvent e) {
-        int states = Goldfish.getMaxStates(rule) - 1;
-        Patch p = _grid.getPatch(e.getX()/scale, e.getY()/scale);
-        if (p.getState() == states) {
-            p.setState(0);
-        } else {
-            _grid.getPatch(e.getX() / scale, e.getY() / scale).setState(states);
-        }
-        e.consume();
+        mouseDraw(e);
     }
 
     @Override
