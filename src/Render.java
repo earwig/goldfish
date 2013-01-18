@@ -78,8 +78,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
     private void setFrame() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menuAlgo = new JMenu("Algorithms");
-        menuAlgo.setFont(new Font("Courier New",1,12));
-        menuAlgo.setPreferredSize(new Dimension(85,0));
+        menuAlgo.setFont(new Font("Arial",1,12));
+        menuAlgo.setPreferredSize(new Dimension(75,0));
         for (String rule : _rules) {
             JMenuItem menuAlgoItem = new JMenuItem(rule);
             menuAlgo.add(menuAlgoItem);
@@ -89,26 +89,26 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
         pauseButton = new JButton("Pause");
         pauseButton.setActionCommand("pause");
-        pauseButton.setFont(new Font("Courier New",1,12));
+        pauseButton.setFont(new Font("Arial",1,12));
         pauseButton.setPreferredSize(new Dimension(90,0));
         menuBar.add(pauseButton);
         pauseButton.addActionListener(this);
 
         JButton resetButton = new JButton("Reset");
         resetButton.setActionCommand("reset");
-        resetButton.setFont(new Font("Courier New",1,12));
+        resetButton.setFont(new Font("Arial",1,12));
         menuBar.add(resetButton);
         resetButton.addActionListener(this);
 
         JButton randomButton = new JButton("Random");
         randomButton.setActionCommand("random");
-        randomButton.setFont(new Font("Courier New",1,12));
+        randomButton.setFont(new Font("Arial",1,12));
         menuBar.add(randomButton);
         randomButton.addActionListener(this);
 
         JButton clearButton = new JButton("Clear");
         clearButton.setActionCommand("clear");
-        clearButton.setFont(new Font("Courier New",1,12));
+        clearButton.setFont(new Font("Arial",1,12));
         menuBar.add(clearButton);
         clearButton.addActionListener(this);
 
@@ -135,11 +135,11 @@ public class Render extends Canvas implements Runnable, MouseListener,
         framesPerSecond.setMinorTickSpacing(1);
         framesPerSecond.setPaintTicks(true);
         framesPerSecond.setPaintLabels(true);
-        framesPerSecond.setFont(new Font("Courier New",1,12));
+        framesPerSecond.setFont(new Font("Arial",1,12));
         framesPerSecond.setPreferredSize(new Dimension(100,0));
         menuBar.add(framesPerSecond);
 
-        menuBar.setPreferredSize(new Dimension(width * scale, 35));
+        menuBar.setPreferredSize(new Dimension(width * scale, 40));
         setPreferredSize(new Dimension(width * scale, height * scale));
         _frame = new JFrame();
         _frame.setJMenuBar(menuBar);
