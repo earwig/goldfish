@@ -289,7 +289,23 @@ public class Render extends Canvas implements Runnable, MouseListener,
         } else if ("clear".equals(event.getActionCommand())) {
             clear();
         } else {
+            String oldRule = rule;
             rule = event.getActionCommand();
+            if (oldRule.equals("Brian's Brain") && !rule.equals("Brian's Brain")) {
+                for (int i = 0; i < _grid.getWidth(); i++) {
+                    for (int j = 0; j < _grid.getHeight(); j++) {
+                        if (_grid.getPatch(i,j).getState() == 2)
+                            _grid.getPatch(i,j).setState(1);
+                    }
+                }
+            } else if (!oldRule.equals("Brian's Brain") && rule.equals("Brian's Brain")) {
+                for (int i = 0; i < _grid.getWidth(); i++) {
+                    for (int j = 0; j < _grid.getHeight(); j++) {
+                        if (_grid.getPatch(i,j).getState() == 1)
+                            _grid.getPatch(i,j).setState(2);
+                    }
+                }
+            }
             title = "Goldfish: " + rule;
             _frame.setTitle(title);
         }
