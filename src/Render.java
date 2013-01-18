@@ -78,6 +78,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
     private void setFrame() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menuAlgo = new JMenu("Algorithms");
+        menuAlgo.setFont(new Font("Courier New",1,12));
+        menuAlgo.setPreferredSize(new Dimension(85,0));
         for (String rule : _rules) {
             JMenuItem menuAlgoItem = new JMenuItem(rule);
             menuAlgo.add(menuAlgoItem);
@@ -87,22 +89,26 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
         pauseButton = new JButton("Pause");
         pauseButton.setActionCommand("pause");
+        pauseButton.setFont(new Font("Courier New",1,12));
         pauseButton.setPreferredSize(new Dimension(90,0));
         menuBar.add(pauseButton);
         pauseButton.addActionListener(this);
 
         JButton resetButton = new JButton("Reset");
         resetButton.setActionCommand("reset");
+        resetButton.setFont(new Font("Courier New",1,12));
         menuBar.add(resetButton);
         resetButton.addActionListener(this);
 
         JButton randomButton = new JButton("Random");
         randomButton.setActionCommand("random");
+        randomButton.setFont(new Font("Courier New",1,12));
         menuBar.add(randomButton);
         randomButton.addActionListener(this);
 
         JButton clearButton = new JButton("Clear");
         clearButton.setActionCommand("clear");
+        clearButton.setFont(new Font("Courier New",1,12));
         menuBar.add(clearButton);
         clearButton.addActionListener(this);
 
@@ -129,9 +135,11 @@ public class Render extends Canvas implements Runnable, MouseListener,
         framesPerSecond.setMinorTickSpacing(1);
         framesPerSecond.setPaintTicks(true);
         framesPerSecond.setPaintLabels(true);
-        framesPerSecond.setPreferredSize(new Dimension(100,40));
+        framesPerSecond.setFont(new Font("Courier New",1,12));
+        framesPerSecond.setPreferredSize(new Dimension(100,0));
         menuBar.add(framesPerSecond);
 
+        menuBar.setPreferredSize(new Dimension(width * scale, 35));
         setPreferredSize(new Dimension(width * scale, height * scale));
         _frame = new JFrame();
         _frame.setJMenuBar(menuBar);
@@ -212,18 +220,24 @@ public class Render extends Canvas implements Runnable, MouseListener,
         }
     }
 
-    public void mouseDraw(MouseEvent e) {
+    private void mouseDraw(MouseEvent e) {
         int states = Goldfish.getMaxStates(rule);
         if (e.getX() < 0 || e.getY() < 0 || e.getX() / scale >= width || e.getY() / scale >= height)
             return;
         Patch p = _grid.getPatch(e.getX()/scale, e.getY()/scale);
         if (_lastPatch != p) {
-            if (p.getState() != 0) {
-                p.setState(0);
-            } else if (states > 2 && SwingUtilities.isRightMouseButton(e)) {
-                p.setState(1);
-            } else {
-                p.setState(states - 1);
+            if (SwingUtilities.isLeftMouseButton(e)) {
+                if (p.getState() != 0) {
+                    p.setState(0);
+                } else {
+                    p.setState(states - 1);
+                }
+            } else if (SwingUtilities.isRightMouseButton(e)) {
+                if (p.getState() != 0) {
+                    p.setState(0);
+                } else {
+                    p.setState(1);
+                }
             }
             _lastPatch = p;
         }
