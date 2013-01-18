@@ -15,13 +15,12 @@ public class LifeWithoutDeath extends RuleSet {
                 int numAlive = 0;
                 for (Patch neighbor : neighbors)
                     if (neighbor.getState() == 1) numAlive++;
-                Patch p = g.getPatch(i,j).clone(newGrid);
+                Patch p = g.getPatch(i, j).clone(newGrid);
                 if (numAlive == 3)
                     p.setState(1); //Born with 3 neighbors.
-                newGrid.setPatch(i,j,p);
+                newGrid.setPatch(i, j, p);
             }
         }
-
         return newGrid;
     }
 }

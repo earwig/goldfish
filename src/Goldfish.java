@@ -55,7 +55,7 @@ public class Goldfish {
     }
 
     private void setup(String rule) {
-        if(rule.equals("Conway")) {
+        if (rule.equals("Conway")) {
             int[][] glidergun = {
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0},
@@ -67,9 +67,9 @@ public class Goldfish {
                 {0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
             };
-            for(int i = 0; i < 36; i++) {
-                for(int j = 0; j < 9; j++) {
-                    _grid.getPatch(i+2,j+2).setState(glidergun[j][i]);
+            for (int i = 0; i < 36; i++) {
+                for (int j = 0; j < 9; j++) {
+                    _grid.getPatch(i + 2, j + 2).setState(glidergun[j][i]);
                 }
             }
         } else if (rule.equals("Life Without Death")) {
@@ -77,9 +77,10 @@ public class Goldfish {
 				{1,1,1,1,0,1},
 				{1,0,1,1,1,1}
     		};
-    		for(int i = 0; i < 6; i++) {
-    			for(int j = 0; j < 2; j++) {
-    				_grid.getPatch(i+((_grid.getHeight()-6)/2),j+((_grid.getWidth()-2)/2)).setState(pattern[j][i]);
+    		for (int i = 0; i < 6; i++) {
+    			for (int j = 0; j < 2; j++) {
+    				_grid.getPatch(i + ((_grid.getHeight() - 6) / 2),
+                                   j + ((_grid.getWidth() - 2) / 2)).setState(pattern[j][i]);
     			}
     		}
     	} else if (rule.equals("Brian's Brain")) {
@@ -88,9 +89,10 @@ public class Goldfish {
 				{2,0,2,0,2},
 				{0,1,0,1,0}
 			};
-	    	for(int i = 0; i < 5; i++) {
-    			for(int j = 0; j < 3; j++) {
-    				_grid.getPatch(i+((_grid.getHeight()-5)/2),j+((_grid.getWidth()-3)/2)).setState(pattern[j][i]);
+	    	for (int i = 0; i < 5; i++) {
+    			for (int j = 0; j < 3; j++) {
+    				_grid.getPatch(i + ((_grid.getHeight() - 5) / 2),
+                                   j + ((_grid.getWidth() - 3) / 2)).setState(pattern[j][i]);
 				}
 			}
     	}

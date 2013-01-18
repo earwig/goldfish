@@ -15,5 +15,4 @@ public class RuleSet {
     public static Grid run (Grid g) {
         return g;
     }
-
 }
