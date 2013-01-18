@@ -1,7 +1,5 @@
 package edu.stuy.goldfish;
 
-import java.util.Random;
-
 import edu.stuy.goldfish.rules.*;
 
 public class Goldfish {
@@ -9,7 +7,6 @@ public class Goldfish {
 
     private Grid _grid;
     private Render _render;
-    private Random random = new Random();
 
     public Goldfish() {
         int width = 128;
