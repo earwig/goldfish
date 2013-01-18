@@ -226,16 +226,12 @@ public class Render extends Canvas implements Runnable, MouseListener,
             return;
         Patch p = _grid.getPatch(e.getX()/scale, e.getY()/scale);
         if (_lastPatch != p) {
-            if (SwingUtilities.isLeftMouseButton(e)) {
-                if (p.getState() != 0) {
-                    p.setState(0);
-                } else {
+            if (p.getState() != 0) {
+                p.setState(0);
+            } else {
+                if (SwingUtilities.isLeftMouseButton(e)) {
                     p.setState(states - 1);
-                }
-            } else if (SwingUtilities.isRightMouseButton(e)) {
-                if (p.getState() != 0) {
-                    p.setState(0);
-                } else {
+                } else if (SwingUtilities.isRightMouseButton(e)) {
                     p.setState(1);
                 }
             }
