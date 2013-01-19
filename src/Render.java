@@ -158,10 +158,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 state = _grid.getPatch(i, j).getState();
-                if (_pixels[i + j * width] == state) {
-                } else {
-                    draw(i, j, (int) ((state / ((double) states - 1)) * 0xffffff));
-                }
+                draw(i, j, (int) ((state / ((double) states - 1)) * 0xffffff));
             }
         }
     }
