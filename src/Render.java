@@ -201,7 +201,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
     }
 
     public void draw(int x, int y, int color) {
-        _pixels[x + y * width] = color;
+        //if (_pixels[x + y * width] != color)
+            _pixels[x + y * width] = color;
     }
 
     public void clear() {
