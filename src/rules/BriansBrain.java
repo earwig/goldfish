@@ -10,15 +10,16 @@ public class BriansBrain extends RuleSet {
         Grid newGrid = new Grid(g.getWidth(), g.getHeight(), false);
         for (int i = 0; i < g.getWidth(); i++) {
             for (int j = 0; j < g.getHeight(); j++) {
-                Patch[] neighbors = g.getPatch(i, j).get8Neighbors();
-                int numAlive = 0;
-                for (Patch neighbor : neighbors)
-                    if (neighbor.getState() == 2) numAlive++;
                 Patch orig = g.getPatch(i, j);
                 Patch p = g.getPatch(i, j).clone(newGrid);
-                if (orig.getState() == 0 && numAlive == 2) p.setState(2);
                 if (orig.getState() == 1) p.setState(0); // Dying cells die.
-                if (orig.getState() == 2) p.setState(1); // Make living cells dying.
+                else if (orig.getState() == 2) p.setState(1); // Make living cells dying.
+                else {
+                    int numAlive = 0;
+                    for (Patch neighbor : orig.get8Neighbors())
+                        if (neighbor.getState() == 2) numAlive++;
+                    if (orig.getState() == 0 && numAlive == 2) p.setState(2);
+                }
                 newGrid.setPatch(i,j,p);
             }
         }
