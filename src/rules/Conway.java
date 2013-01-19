@@ -7,7 +7,7 @@ public class Conway extends RuleSet {
     public static int states = 2;
 
     public static Grid run (Grid g) {
-        Grid newGrid = new Grid(g.getWidth(), g.getHeight());
+        Grid newGrid = new Grid(g.getWidth(), g.getHeight(), false);
         for (int i = 0; i < g.getWidth(); i++) {
             for (int j = 0; j < g.getHeight(); j++) {
                 Patch[] neighbors = g.getPatch(i, j).get8Neighbors();

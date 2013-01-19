@@ -9,13 +9,19 @@ public class Grid {
         _grid[0][0] = new Patch(this, 0, 0, 0);
     }
 
-    public Grid(int x, int y) {
+    public Grid(int x, int y, boolean fill) {
         _grid = new Patch[y][x];
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                _grid[j][i] = new Patch(this, i, j, 0);
+        if (fill) {
+            for (int i = 0; i < x; i++) {
+                for (int j = 0; j < y; j++) {
+                    _grid[j][i] = new Patch(this, i, j, 0);
+                }
             }
         }
+    }
+
+    public Grid (int x, int y) {
+        this(x,y,true);
     }
 
     private int normalizeX(int x) {
