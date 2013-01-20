@@ -9,31 +9,20 @@ public class Goldfish {
     private Render _render;
 
     public Goldfish() {
-        int width = 512;
-        int height = 512;
+        int width = 128;
+        int height = 128;
         _grid = new Grid(width, height);
         _render = new Render(width, height, _grid, RULES);
     }
 
     public void run() {
         setup(_render.rule);
-
-        int runs = 0;
-        double average = 0;
-
-
         while (true) {
             if (_render.reset) {
                 setup(_render.rule);
                 _render.reset = false;
             }
             if (!_render.paused) {
-
-
-                long start = System.currentTimeMillis();
-
-
-
                 String rule = _render.rule;
                 if (rule.equals("Conway"))
                     _grid = Conway.run(_grid);
@@ -43,17 +32,6 @@ public class Goldfish {
                     _grid = LifeWithoutDeath.run(_grid);
                 else if (rule.equals("Brian's Brain"))
                     _grid = BriansBrain.run(_grid);
-
-
-
-
-                long diff = System.currentTimeMillis() - start;
-                average = (diff + (average * runs)) / (runs + 1);
-                runs++;
-                if (runs % 30 == 0)
-                    System.out.println(runs + ": " + average);
-
-
             }
             _render.setGrid(_grid);
             _render.run();
