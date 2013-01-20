@@ -11,13 +11,11 @@ public class LifeWithoutDeath extends RuleSet {
         Grid newGrid = new Grid(g.getWidth(), g.getHeight(), false);
         for (int i = 0; i < g.getWidth(); i++) {
             for (int j = 0; j < g.getHeight(); j++) {
-                Patch[] neighbors = g.getPatch(i, j).get8Neighbors();
-                int numAlive = 0;
-                for (Patch neighbor : neighbors)
-                    if (neighbor.getState() == 1) numAlive++;
-                Patch p = g.getPatch(i, j).clone(newGrid);
+                Patch orig = g.getPatch(i, j);
+                int numAlive = orig.get8Neighbors(1, 4);
+                Patch p = orig.clone(newGrid);
                 if (numAlive == 3)
-                    p.setState(1); //Born with 3 neighbors.
+                    p.setState(1); // Born with 3 neighbors
                 newGrid.setPatch(i, j, p);
             }
         }

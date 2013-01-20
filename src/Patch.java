@@ -39,26 +39,64 @@ public class Patch {
         return "" + ((_state == 0) ? "." : _state);
     }
 
-    public Patch[] get4Neighbors() {
-        Patch[] neighbors = new Patch[4];
-        neighbors[0] = _grid.getPatch(_xcor + 1, _ycor);
-        neighbors[1] = _grid.getPatch(_xcor - 1, _ycor);
-        neighbors[2] = _grid.getPatch(_xcor, _ycor + 1);
-        neighbors[3] = _grid.getPatch(_xcor, _ycor - 1);
+    public int get4Neighbors(int state, int max) {
+        int neighbors = 0;
+        for (int i = 0; i < 4; i++) {
+            Patch p;
+            switch(i) {
+                case 0:
+                    p = _grid.getPatch(_xcor + 1, _ycor); break;
+                case 1:
+                    p = _grid.getPatch(_xcor - 1, _ycor); break;
+                case 2:
+                    p = _grid.getPatch(_xcor, _ycor + 1); break;
+                default:
+                    p = _grid.getPatch(_xcor, _ycor - 1); break;
+            }
+            if (p.getState() == state)
+                neighbors++;
+            if (neighbors == max)
+                break;
+        }
         return neighbors;
     }
 
-    public Patch[] get8Neighbors() {
-        Patch[] neighbors = new Patch[8];
-        neighbors[0] = _grid.getPatch(_xcor + 1, _ycor);
-        neighbors[1] = _grid.getPatch(_xcor - 1, _ycor);
-        neighbors[2] = _grid.getPatch(_xcor, _ycor + 1);
-        neighbors[3] = _grid.getPatch(_xcor, _ycor - 1);
-        neighbors[4] = _grid.getPatch(_xcor + 1, _ycor + 1);
-        neighbors[5] = _grid.getPatch(_xcor + 1, _ycor - 1);
-        neighbors[6] = _grid.getPatch(_xcor - 1, _ycor + 1);
-        neighbors[7] = _grid.getPatch(_xcor - 1, _ycor - 1);
+    public int get8Neighbors(int state, int max) {
+        int neighbors = 0;
+        for (int i = 0; i < 8; i++) {
+            Patch p;
+            switch(i) {
+                case 0:
+                    p = _grid.getPatch(_xcor + 1, _ycor); break;
+                case 1:
+                    p = _grid.getPatch(_xcor - 1, _ycor); break;
+                case 2:
+                    p = _grid.getPatch(_xcor, _ycor + 1); break;
+                case 3:
+                    p = _grid.getPatch(_xcor, _ycor - 1); break;
+                case 4:
+                    p = _grid.getPatch(_xcor + 1, _ycor + 1); break;
+                case 5:
+                    p = _grid.getPatch(_xcor + 1, _ycor - 1); break;
+                case 6:
+                    p = _grid.getPatch(_xcor - 1, _ycor + 1); break;
+                default:
+                    p = _grid.getPatch(_xcor - 1, _ycor - 1); break;
+            }
+            if (p.getState() == state)
+                neighbors++;
+            if (neighbors == max)
+                break;
+        }
         return neighbors;
+    }
+
+    public int get4Neighbors(int state) {
+        return get4Neighbors(state, 4);
+    }
+
+    public int get8Neighbors(int state) {
+        return get8Neighbors(state, 8);
     }
 
     public Patch clone(Grid grid) {

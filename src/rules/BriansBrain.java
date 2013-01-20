@@ -15,9 +15,7 @@ public class BriansBrain extends RuleSet {
                 if (orig.getState() == 1) p.setState(0); // Dying cells die.
                 else if (orig.getState() == 2) p.setState(1); // Make living cells dying.
                 else {
-                    int numAlive = 0;
-                    for (Patch neighbor : orig.get8Neighbors())
-                        if (neighbor.getState() == 2) numAlive++;
+                    int numAlive = orig.get8Neighbors(2, 3);
                     if (orig.getState() == 0 && numAlive == 2) p.setState(2);
                 }
                 newGrid.setPatch(i,j,p);

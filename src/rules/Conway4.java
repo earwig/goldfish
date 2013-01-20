@@ -11,23 +11,18 @@ public class Conway4 extends RuleSet {
         Grid newGrid = new Grid(g.getWidth(), g.getHeight(), false);
         for (int i = 0; i < g.getWidth(); i++) {
             for (int j = 0; j < g.getHeight(); j++) {
-                Patch[] neighbors = g.getPatch(i, j).get4Neighbors();
-                int numAlive = 0;
-                for (Patch p : neighbors)
-                    if (p.getState() == 1) numAlive++;
-                Patch p = g.getPatch(i, j).clone(newGrid);
-                if (numAlive < 2) {
+                Patch orig = g.getPatch(i, j);
+                int numAlive = orig.get4Neighbors(1);
+                Patch p = orig.clone(newGrid);
+                if (numAlive < 2)
                     p.setState(0); // Dies by underpopulation
-                }
-                if (numAlive > 3) {
+                else if (numAlive > 3)
                     p.setState(0); // Dies by overpopulation
-                }
-                if (numAlive == 3)
-                    p.setState(1); // Born with 3 neighbors.
+                else if (numAlive == 3)
+                    p.setState(1); // Born with 3 neighbors
                 newGrid.setPatch(i, j, p);
             }
         }
         return newGrid;
     }
-
 }
