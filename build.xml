@@ -26,7 +26,10 @@
     <target name="init">
         <mkdir dir="bin"/>
         <mkdir dir="src"/>
-        <mkdir dir="src/rules" />
+        <mkdir dir="src/edu"/>
+        <mkdir dir="src/edu/stuy"/>
+        <mkdir dir="src/edu/stuy/goldfish"/>
+        <mkdir dir="src/edu/stuy/goldfish/rules"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
                 <exclude name="**/*.java"/>
