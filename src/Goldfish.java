@@ -23,6 +23,7 @@ public class Goldfish {
                 _render.reset = false;
             }
             if (!_render.paused) {
+                _render.acquireLock(0);
                 String rule = _render.rule;
                 if (rule.equals("Conway"))
                     _grid = Conway.run(_grid);
@@ -32,6 +33,7 @@ public class Goldfish {
                     _grid = LifeWithoutDeath.run(_grid);
                 else if (rule.equals("Brian's Brain"))
                     _grid = BriansBrain.run(_grid);
+                _render.releaseLock(0);
             }
             _render.setGrid(_grid);
             _render.run();

@@ -1,6 +1,8 @@
 package edu.stuy.goldfish;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -23,6 +25,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
     public String rule;
     public boolean reset;
 
+    private AtomicBoolean[] _flags;
+    private AtomicInteger _turn;
     private Grid _grid;
     private int[] _pixels;
     private BufferedImage _image;
@@ -43,6 +47,10 @@ public class Render extends Canvas implements Runnable, MouseListener,
         paused = false;
         reset = false;
         rule = rules[0];
+        _flags = new AtomicBoolean[2];
+        for (int i = 0; i < _flags.length; i++)
+            _flags[i] = new AtomicBoolean();
+        _turn = new AtomicInteger();
         _grid = g;
         _image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         _pixels = ((DataBufferInt) _image.getRaster().getDataBuffer()).getData();
@@ -78,8 +86,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
     private void setFrame() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menuAlgo = new JMenu("Algorithms");
-        menuAlgo.setFont(new Font("Arial",1,12));
-        menuAlgo.setPreferredSize(new Dimension(75,0));
+        menuAlgo.setFont(new Font("Arial", 1, 12));
+        menuAlgo.setPreferredSize(new Dimension(75, 0));
         for (String rule : _rules) {
             JMenuItem menuAlgoItem = new JMenuItem(rule);
             menuAlgo.add(menuAlgoItem);
@@ -163,6 +171,24 @@ public class Render extends Canvas implements Runnable, MouseListener,
         }
     }
 
+    public void acquireLock(int thread) {
+        int other = (thread == 0 ? 1 : 0);
+        _flags[thread].set(true);
+        while (_flags[other].get() == true) {
+            if (_turn.get() != thread) {
+                _flags[thread].set(false);
+                while (_turn.get() != thread) {}
+                _flags[thread].set(true);
+            }
+        }
+    }
+
+    public void releaseLock(int thread) {
+        int other = (thread == 0 ? 1 : 0);
+        _turn.set(other);
+        _flags[thread].set(false);
+    }
+
     public void run() {
         BufferStrategy bs;
         Graphics g;
@@ -203,19 +229,23 @@ public class Render extends Canvas implements Runnable, MouseListener,
     }
 
     public void clear() {
+        acquireLock(1);
         for (int i = 0; i < _grid.getHeight(); i++) {
             for (int j = 0; j < _grid.getWidth(); j++) {
                 _grid.getPatch(i, j).setState(0);
             }
         }
+        releaseLock(1);
     }
 
     public void randomize() {
+        acquireLock(1);
         for (int i = 0; i < _grid.getHeight(); i++) {
             for (int j = 0; j < _grid.getWidth(); j++) {
                 _grid.getPatch(i, j).setState(random.nextInt(Goldfish.getMaxStates(rule)));
             }
         }
+        releaseLock(1);
     }
 
     private void mouseDraw(MouseEvent e) {

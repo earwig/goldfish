@@ -1,7 +1,6 @@
 package edu.stuy.goldfish;
 
 public class Grid {
-
     private Patch[][] _grid;
 
     public Grid() {
@@ -20,8 +19,8 @@ public class Grid {
         }
     }
 
-    public Grid (int x, int y) {
-        this(x,y,true);
+    public Grid(int x, int y) {
+        this(x, y, true);
     }
 
     private int normalizeX(int x) {
