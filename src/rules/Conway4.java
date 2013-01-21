@@ -7,7 +7,7 @@ import edu.stuy.goldfish.Patch;
 public class Conway4 extends RuleSet {
     public static int states = 2;
 
-    public static Grid run (Grid g) {
+    public static Grid run(Grid g) {
         Grid newGrid = new Grid(g.getWidth(), g.getHeight(), false);
         for (int i = 0; i < g.getWidth(); i++) {
             for (int j = 0; j < g.getHeight(); j++) {
@@ -24,5 +24,18 @@ public class Conway4 extends RuleSet {
             }
         }
         return newGrid;
+    }
+
+    public static void setup(Grid g) {
+        int[][] pattern = {
+            {1,1,1,1,0,1},
+            {1,0,1,1,1,1}
+        };
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 2; j++) {
+                g.getPatch(i + ((g.getHeight() - 6) / 2),
+                           j + ((g.getWidth() - 2) / 2)).setState(pattern[j][i]);
+            }
+        }
     }
 }

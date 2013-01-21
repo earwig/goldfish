@@ -12,7 +12,15 @@ public class RuleSet {
      *
      * @return The new grid
      */
-    public static Grid run (Grid g) {
+    public static Grid run(Grid g) {
         return g;
+    }
+
+    /**
+     * Setup the grid with an interesting initial pattern.
+     *
+     * @param g The grid this is running on
+     */
+    public static void setup(Grid g) {
     }
 }

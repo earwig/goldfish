@@ -23,4 +23,18 @@ public class BriansBrain extends RuleSet {
         }
         return newGrid;
     }
+
+    public static void setup(Grid g) {
+        int[][] pattern = {
+            {2,0,2,0,2},
+            {2,0,2,0,2},
+            {0,1,0,1,0}
+        };
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 3; j++) {
+                g.getPatch(i + ((g.getHeight() - 5) / 2),
+                           j + ((g.getWidth() - 3) / 2)).setState(pattern[j][i]);
+            }
+        }
+    }
 }
