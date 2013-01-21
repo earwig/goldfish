@@ -35,7 +35,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
     private JFrame _frame;
     private JButton pauseButton;
     private Random random = new Random();
-    private Patch _lastPatch;
+    private int _drawState;
 
     public Render(int width, int height, Grid g, String[] rules) {
         addMouseListener(this);
@@ -47,16 +47,18 @@ public class Render extends Canvas implements Runnable, MouseListener,
         paused = false;
         reset = false;
         rule = rules[0];
+
         _flags = new AtomicBoolean[2];
         for (int i = 0; i < _flags.length; i++)
             _flags[i] = new AtomicBoolean();
         _turn = new AtomicInteger();
+
         _grid = g;
         _image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         _pixels = ((DataBufferInt) _image.getRaster().getDataBuffer()).getData();
         _lastTick = 0;
         _rules = rules;
-        _lastPatch = null;
+        _drawState = -1;
         fps_now = 15;
         setFrame();
     }
@@ -252,19 +254,18 @@ public class Render extends Canvas implements Runnable, MouseListener,
         int states = Goldfish.getMaxStates(rule);
         if (e.getX() < 0 || e.getY() < 0 || e.getX() / scale >= width || e.getY() / scale >= height)
             return;
-        Patch p = _grid.getPatch(e.getX()/scale, e.getY()/scale);
-        if (_lastPatch != p) {
-            if (p.getState() != 0) {
-                p.setState(0);
+        Patch p = _grid.getPatch(e.getX() / scale, e.getY() / scale);
+        if (_drawState == -1) {
+            if (p.getState() == 0) {
+                if (SwingUtilities.isLeftMouseButton(e))
+                    _drawState = states - 1;
+                else if (SwingUtilities.isRightMouseButton(e))
+                    _drawState = 1;
             } else {
-                if (SwingUtilities.isLeftMouseButton(e)) {
-                    p.setState(states - 1);
-                } else if (SwingUtilities.isRightMouseButton(e)) {
-                    p.setState(1);
-                }
+                _drawState = 0;
             }
-            _lastPatch = p;
         }
+        p.setState(_drawState);
         e.consume();
     }
 
@@ -292,7 +293,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        _lastPatch = null;
+        _drawState = -1;
     }
 
     @Override
