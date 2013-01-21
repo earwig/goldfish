@@ -89,26 +89,26 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
         pauseButton = new JButton("Pause");
         pauseButton.setActionCommand("pause");
-        pauseButton.setFont(new Font("Arial",1,12));
-        pauseButton.setPreferredSize(new Dimension(90,0));
+        pauseButton.setFont(new Font("Arial", 0, 12));
+        pauseButton.setPreferredSize(new Dimension(90, 0));
         menuBar.add(pauseButton);
         pauseButton.addActionListener(this);
 
         JButton resetButton = new JButton("Reset");
         resetButton.setActionCommand("reset");
-        resetButton.setFont(new Font("Arial",1,12));
+        resetButton.setFont(new Font("Arial", 0, 12));
         menuBar.add(resetButton);
         resetButton.addActionListener(this);
 
         JButton randomButton = new JButton("Random");
         randomButton.setActionCommand("random");
-        randomButton.setFont(new Font("Arial",1,12));
+        randomButton.setFont(new Font("Arial", 0, 12));
         menuBar.add(randomButton);
         randomButton.addActionListener(this);
 
         JButton clearButton = new JButton("Clear");
         clearButton.setActionCommand("clear");
-        clearButton.setFont(new Font("Arial",1,12));
+        clearButton.setFont(new Font("Arial", 0, 12));
         menuBar.add(clearButton);
         clearButton.addActionListener(this);
 
@@ -135,8 +135,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
         framesPerSecond.setMinorTickSpacing(1);
         framesPerSecond.setPaintTicks(true);
         framesPerSecond.setPaintLabels(true);
-        framesPerSecond.setFont(new Font("Arial",1,12));
-        framesPerSecond.setPreferredSize(new Dimension(100,0));
+        framesPerSecond.setFont(new Font("Arial", 0, 12));
+        framesPerSecond.setPreferredSize(new Dimension(100, 0));
         menuBar.add(framesPerSecond);
 
         menuBar.setPreferredSize(new Dimension(width * scale, 40));
@@ -237,7 +237,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
         }
         e.consume();
     }
-    
+
     @Override
     public void mouseDragged(MouseEvent e) {
         mouseDraw(e);
