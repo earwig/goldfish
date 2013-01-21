@@ -33,8 +33,8 @@ public class Conway4 extends RuleSet {
         };
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 2; j++) {
-                g.getPatch(i + ((g.getHeight() - 6) / 2),
-                           j + ((g.getWidth() - 2) / 2)).setState(pattern[j][i]);
+                g.getPatch(i + ((g.getWidth() - 6) / 2),
+                           j + ((g.getHeight() - 2) / 2)).setState(pattern[j][i]);
             }
         }
     }

@@ -32,8 +32,8 @@ public class BriansBrain extends RuleSet {
         };
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 3; j++) {
-                g.getPatch(i + ((g.getHeight() - 5) / 2),
-                           j + ((g.getWidth() - 3) / 2)).setState(pattern[j][i]);
+                g.getPatch(i + ((g.getWidth() - 5) / 2),
+                           j + ((g.getHeight() - 3) / 2)).setState(pattern[j][i]);
             }
         }
     }

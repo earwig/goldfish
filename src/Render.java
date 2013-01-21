@@ -232,8 +232,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
     public void clear() {
         acquireLock(1);
-        for (int i = 0; i < _grid.getHeight(); i++) {
-            for (int j = 0; j < _grid.getWidth(); j++) {
+        for (int i = 0; i < _grid.getWidth(); i++) {
+            for (int j = 0; j < _grid.getHeight(); j++) {
                 _grid.getPatch(i, j).setState(0);
             }
         }
@@ -242,8 +242,8 @@ public class Render extends Canvas implements Runnable, MouseListener,
 
     public void randomize() {
         acquireLock(1);
-        for (int i = 0; i < _grid.getHeight(); i++) {
-            for (int j = 0; j < _grid.getWidth(); j++) {
+        for (int i = 0; i < _grid.getWidth(); i++) {
+            for (int j = 0; j < _grid.getHeight(); j++) {
                 _grid.getPatch(i, j).setState(random.nextInt(Goldfish.getMaxStates(rule)));
             }
         }
