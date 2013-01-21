@@ -15,6 +15,7 @@ public class Goldfish {
         _render = new Render(width, height, _grid, RULES);
     }
 
+    /* Main method for running the simulator. */
     public void run() {
         setup(_render.rule);
         while (true) {
@@ -33,6 +34,7 @@ public class Goldfish {
         }
     }
 
+    /* Advance the grid one step using the given algorithm. */
     private void doLogic(String rule) {
         if (rule.equals("Conway"))
             _grid = Conway.run(_grid);
@@ -44,6 +46,7 @@ public class Goldfish {
             _grid = BriansBrain.run(_grid);
     }
 
+    /* Return the max number of states a patch can be in for the given rule. */
     public static int getMaxStates(String rule) {
         if (rule.equals("Conway"))
             return Conway.states;
@@ -56,6 +59,7 @@ public class Goldfish {
         return 2;
     }
 
+    /* Generate a default shape for the grid based on the given rule. */
     private void setup(String rule) {
         if (rule.equals("Conway"))
             Conway.setup(_grid);

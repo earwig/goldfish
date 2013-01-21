@@ -75,6 +75,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
         this(256, 256);
     }
 
+    /* Set the grid's scale factor so smaller grids appear larger. */
     private void setScale() {
         if (height <= 128 || width <= 128) {
             Render.scale = 4;
@@ -85,6 +86,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
         }
     }
 
+    /* Set up the window frame with various buttons. */
     private void setFrame() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menuAlgo = new JMenu("Algorithms");
@@ -162,6 +164,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
         _frame.setVisible(true);
     }
 
+    /* Actually draw the grid to the screen. */
     private void update() {
         int state;
         int states = Goldfish.getMaxStates(rule);
@@ -173,6 +176,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
         }
     }
 
+    /* Acquire a lock so two threads don't modify the grid at the same time. */
     public void acquireLock(int thread) {
         int other = (thread == 0 ? 1 : 0);
         _flags[thread].set(true);
@@ -185,12 +189,14 @@ public class Render extends Canvas implements Runnable, MouseListener,
         }
     }
 
+    /* Release the lock when a thread is finished modifying the grid. */
     public void releaseLock(int thread) {
         int other = (thread == 0 ? 1 : 0);
         _turn.set(other);
         _flags[thread].set(false);
     }
 
+    /* Main method to render the grid at its current state. */
     public void run() {
         BufferStrategy bs;
         Graphics g;
@@ -209,6 +215,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
         bs.show();
     }
 
+    /* Maintain a maximum FPS. */
     public void sleep() {
         long since = System.currentTimeMillis() - _lastTick;
         if (since < 1000 / fps_now) {
@@ -221,15 +228,18 @@ public class Render extends Canvas implements Runnable, MouseListener,
         _lastTick = System.currentTimeMillis();
     }
 
+    /* Set the grid to be rendered. */
     public void setGrid(Grid g) {
         _grid = g;
     }
 
+    /* Draw a certain color at (x, y) to the screen. */
     public void draw(int x, int y, int color) {
         if (_pixels[x + y * width] != color)
             _pixels[x + y * width] = color;
     }
 
+    /* Set the state of all patches in the grid to zero. */
     public void clear() {
         acquireLock(1);
         for (int i = 0; i < _grid.getWidth(); i++) {
@@ -240,6 +250,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
         releaseLock(1);
     }
 
+    /* Set each patch in the grid to a random state. */
     public void randomize() {
         acquireLock(1);
         for (int i = 0; i < _grid.getWidth(); i++) {
@@ -250,6 +261,7 @@ public class Render extends Canvas implements Runnable, MouseListener,
         releaseLock(1);
     }
 
+    /* Handle a mouse event by modifying the patch the mouse is over. */
     private void mouseDraw(MouseEvent e) {
         int states = Goldfish.getMaxStates(rule);
         if (e.getX() < 0 || e.getY() < 0 || e.getX() / scale >= width || e.getY() / scale >= height)
@@ -269,37 +281,45 @@ public class Render extends Canvas implements Runnable, MouseListener,
         e.consume();
     }
 
+    /* Called when the mouse is dragged over a pixel. */
     @Override
     public void mouseDragged(MouseEvent e) {
         mouseDraw(e);
     }
 
+    /* Called whenever the mouse is clicked. */
     @Override
     public void mouseClicked(MouseEvent e) {
     }
 
+    /* Called whenever the mouse enters the window. */
     @Override
     public void mouseEntered(MouseEvent e) {
     }
 
+    /* Called whenever the mouse exits the window. */
     @Override
     public void mouseExited(MouseEvent e) {
     }
 
+    /* Called whenever the mouse is pressed. */
     @Override
     public void mousePressed(MouseEvent e) {
         mouseDraw(e);
     }
 
+    /* Called whenever the mouse is released from being pressed. */
     @Override
     public void mouseReleased(MouseEvent e) {
         _drawState = -1;
     }
 
+    /* Called whenever the mouse is moved, pressed or not. */
     @Override
     public void mouseMoved(MouseEvent e) {
     }
 
+    /* Hook to handle button presses and menu choices. */
     @Override
     public void actionPerformed(ActionEvent event) {
         if ("pause".equals(event.getActionCommand())) {
