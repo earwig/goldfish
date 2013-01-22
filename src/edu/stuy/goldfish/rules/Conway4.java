@@ -1,7 +1,5 @@
 package edu.stuy.goldfish.rules;
 
-import java.util.Random;
-
 import edu.stuy.goldfish.Grid;
 import edu.stuy.goldfish.Patch;
 
@@ -29,10 +27,26 @@ public class Conway4 extends RuleSet {
     }
 
     public static void setup(Grid g) {
-        Random random = new Random();
-        for (int i = 0; i < g.getWidth(); i++) {
-            for (int j = 0; j < g.getHeight(); j++) {
-                g.getPatch(i, j).setState(random.nextInt(2));
+        int[][] pattern = {
+            {1,1,1,1,1,1,1,1,1,1,1,1,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1,0,1},
+            {1,0,1,1,1,1,1,1,1,1,0,1,0,1},
+            {1,0,1,0,0,0,0,0,0,1,0,1,0,1},
+            {1,0,1,0,1,1,1,1,0,1,0,1,0,1},
+            {1,0,1,0,1,0,0,1,0,1,0,1,0,1},
+            {1,0,1,0,1,0,0,1,0,1,0,1,0,1},
+            {1,0,1,0,1,0,1,1,0,1,0,1,0,1},
+            {1,0,1,0,1,0,0,0,0,1,0,1,0,1},
+            {1,0,1,0,1,1,1,1,1,1,0,1,0,1},
+            {1,0,1,0,0,0,0,0,0,0,0,1,0,1},
+            {1,0,1,1,1,1,1,1,1,1,1,1,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+        };
+        for (int i = 0; i < 14; i++) {
+            for (int j = 0; j < 14; j++) {
+                g.getPatch(i + ((g.getWidth() - 14) / 2),
+                           j + ((g.getHeight() - 14) / 2)).setState(pattern[j][i]);
             }
         }
     }
