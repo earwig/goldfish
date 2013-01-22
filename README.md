@@ -1,7 +1,7 @@
 goldfish
 ========
 
-**goldfish** (*GoLdfish*) is a simple Game of Life implementation in Java.
+**goldfish** (GoLdfish) is a simple Game of Life implementation in Java.
 
 Setup
 -----

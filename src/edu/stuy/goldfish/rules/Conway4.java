@@ -1,5 +1,7 @@
 package edu.stuy.goldfish.rules;
 
+import java.util.Random;
+
 import edu.stuy.goldfish.Grid;
 import edu.stuy.goldfish.Patch;
 
@@ -27,14 +29,10 @@ public class Conway4 extends RuleSet {
     }
 
     public static void setup(Grid g) {
-        int[][] pattern = {
-            {1,1,1,1,0,1},
-            {1,0,1,1,1,1}
-        };
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 2; j++) {
-                g.getPatch(i + ((g.getWidth() - 6) / 2),
-                           j + ((g.getHeight() - 2) / 2)).setState(pattern[j][i]);
+        Random random = new Random();
+        for (int i = 0; i < g.getWidth(); i++) {
+            for (int j = 0; j < g.getHeight(); j++) {
+                g.getPatch(i, j).setState(random.nextInt(2));
             }
         }
     }

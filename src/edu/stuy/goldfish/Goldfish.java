@@ -20,7 +20,9 @@ public class Goldfish {
         setup(_render.rule);
         while (true) {
             if (_render.reset) {
+                _render.acquireLock(0);
                 setup(_render.rule);
+                _render.releaseLock(0);
                 _render.reset = false;
             }
             if (!_render.paused) {
