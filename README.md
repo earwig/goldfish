@@ -36,7 +36,7 @@ to set the maximum FPS that the simulation will run at.
 
 By clicking on the screen and dragging your mouse, you can set the state of
 patches directly. This works best when paused. "Painting" over living patches
-will set their state as dead. In automata with muliple states, right-clicking
+will set their state as dead. In automata with multiple states, right-clicking
 will paint in a different state than left-clicking.
 
 The *algorithms* menu allows you to switch to different cellular automaton
